@@ -1,7 +1,8 @@
 
 <br>
 <p align="center">
-<h1 align="center"><img src="assets/unihsi_icon.png" align="center" width="6.5%"><strong>Unified Human-Scene Interaction &#13; via Prompted Chain-of-Contacts</strong></h1>
+<h1 align="center"><img src="assets/unihsi_icon.png" align="center" width="6.5%"><strong>Unified Human-Scene Interaction 
+  via Prompted Chain-of-Contacts</strong></h1>
   <p align="center">
     <a href='https://github.com/xizaoqu/' target='_blank'>Zeqi Xiao</a>&emsp;
     <a href='https://tai-wang.github.io/' target='_blank'>Tai Wang</a>&emsp;
