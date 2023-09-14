@@ -34,7 +34,7 @@
 ## 🏠 About
 <!-- ![Teaser](assets/teaser.jpg) -->
 <div style="text-align: center;">
-      <video src="./static/videos/teaser.mp4"></video>
+      <video src="assets/teaser.mp4"></video>
 </div>
 
 This paper presents <b>a UNIfied HSI framework, UniHSI, which supports unified control of diverse interactions through language commands</b>. This framework is built upon the definition of interaction as <b>Chain of Contacts</b> (CoC): steps of human joint-object part pairs, which is inspired by the strong correlation between interaction types and human-object contact regions.
