@@ -34,9 +34,7 @@
 ## 🏠 About
 <!-- ![Teaser](assets/teaser.jpg) -->
 <div style="text-align: center;">
-      <video id="teaser" autoplay muted loop playsinline height="100%">
-        <source src="./static/videos/teaser.mp4"
-                type="video/mp4">
+      <video src="./static/videos/teaser.mp4" id="teaser" autoplay muted loop playsinline height="100%">
       </video>
 </div>
 
