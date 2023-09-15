@@ -48,23 +48,23 @@ Based on the definition, UniHSI constitutes a <b>Large Language Model (LLM) Plan
 The whole pipeline consists of two major components: the LLM Planner and the Unified Controller. The LLM planner takes language inputs and background scenario information as inputs and outputs multi-step plan in the form of a Chain of Contacts. The Unified Controller then executes task plans step-by-step and output interaction movements.
 
 ### Demo
-### Pipeline Flow
+#### Pipeline Flow
 <video src="assets/scannet_long_demo.mp4" controls>
 </video>
 
-### Multi-objects Interaction
+#### Multi-objects Interaction
 <video src="assets/multiobj_multistep_1.mp4" controls>
 </video>
 <video src="assets/multiobj_multistep_2.mp4" controls>
 </video>
 
-### Diverse Interactions with the Same Object
+#### Diverse Interactions with the Same Object
 <video src="assets/multistep_sit_demo.mp4" controls>
 </video>
 <video src="assets/multistep_bed_demo.mp4" controls>
 </video>
 
-### ''Multi-agent'' Interaction Planned by LLMs
+#### ''Multi-agent'' Interaction Planned by LLMs
 <video src="assets/scannet_two_bed_demo.mp4" controls>
 </video>
 
