@@ -20,7 +20,7 @@
   <a href="https://arxiv.org/abs/2309.07918" target='_blank'>
     <img src="https://img.shields.io/badge/arXiv-2308.16911-blue?">
   </a> 
-  <a href="https://arxiv.org/pdf/2309.07918.pdf" target='_blank'>
+  <a href="./assets/UniHSI.pdf" target='_blank'>
     <img src="https://img.shields.io/badge/Paper-📖-blue?">
   </a> 
   <a href="https://xizaoqu.github.io/unihsi" target='_blank'>
