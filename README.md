@@ -7,6 +7,7 @@
     <a href='https://github.com/xizaoqu/' target='_blank'>Zeqi Xiao</a>&emsp;
     <a href='https://tai-wang.github.io/' target='_blank'>Tai Wang</a>&emsp;
     <a href='https://scholar.google.com/citations?user=GStTsxAAAAAJ&hl=zh-CN&oi=ao/' target='_blank'>Jingbo Wang</a>&emsp;
+    <a href='https://www.jinkuncao.com/' target='_blank'>Jinkun Cao</a>&emsp;
     <a href='http://zhangwenwei.cn/' target='_blank'>Wenwei Zhang</a>&emsp;
     <a href='https://daibo.info/' target='_blank'>Bo Dai</a>&emsp;
     <a href='http://dahua.site/' target='_blank'>Dahua Lin</a>&emsp;
