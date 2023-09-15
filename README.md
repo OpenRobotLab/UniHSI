@@ -52,7 +52,7 @@ The whole pipeline consists of two major components: the LLM Planner and the Uni
 <!-- <div style="text-align: center;">
     <img src="assets/demo_fig.png" alt="Dialogue_Teaser" width=100% >
 </div> -->
-[![demo](assets/demo_fig.png "title")](https://xizaoqu.github.io/unihsi)
+[![demo](assets/demo_fig.png "demo")](https://xizaoqu.github.io/unihsi)
 <!-- #### Pipeline Flow
 <video src="assets/scannet_long_demo.mp4" controls>
 </video>
