@@ -52,6 +52,11 @@ The whole pipeline consists of two major components: the LLM Planner and the Uni
 If you find our work helpful, please cite:
 
 ```bibtex
+@article{xiao2023unihsi,
+  author    = {Xiao, Zeqi and Wang, Tai and Wang, Jingbo and Cao, Jinkun and Dai, Bo and Lin, Dahua and Pang, Jiangmiao},
+  title     = {Unified Human-Scene Interaction via Prompted Chain-of-Contacts},
+  journal   = {Arxiv},
+  year      = {2023},
 }
 ```
 
