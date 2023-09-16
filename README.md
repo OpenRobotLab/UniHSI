@@ -94,6 +94,6 @@ This work is under the <a rel="license" href="http://creativecommons.org/license
 ## 👏 Acknowledgements
 - [ASE](https://github.com/nv-tlabs/ASE): Our codebase is built upon the AMP implementation in ASE.
 - [PartNet](https://partnet.cs.stanford.edu/): We use objects from PartNet for training and evaluation.
-- [ScanNet](http://www.scan-net.org/): We use scenatios from ScanNet for evaluation.
+- [ScanNet](http://www.scan-net.org/): We use scenarios from ScanNet for evaluation.
 - [SAMP](https://github.com/mohamedhassanmus/SAMP): We use motion clips from SAMP for training.
 - [CIRCLE](https://stanford-tml.github.io/circle_dataset): We use motion clips from CIRCLE for training.
