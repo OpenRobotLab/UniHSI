@@ -42,8 +42,6 @@ Based on the definition, UniHSI constitutes a <b>Large Language Model (LLM) Plan
 - [2023-09] We release the [paper](https://arxiv.org/abs/2309.07918) of UniHSI. Please check the :point_right: [webpage](https://xizaoqu.github.io/unihsi) :point_left: and view our demos! :sparkler:;
 
 ## 🔍 Overview
-
-### Model
 <p align="center">
   <img src="assets/main_figure.jpg" align="center" width="100%">
 </p>
