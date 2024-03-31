@@ -1,0 +1,78 @@
+{
+    "0000":
+    {
+        "scene_id": "0000_00",
+        "rotate": [[0,0,0]],
+        "scale": 1.2,
+        "transfer": [0,0,-0.1],
+        "obj": 
+        {
+            "000": 
+            {
+                "name": "stand_point",
+                "id": "36",
+                "part_id":{"seat_surface":[0]},
+                "stand_point":[[7,4,0.86]]
+            },
+            "001": 
+            {
+                "name": "toilet",
+                "id": "36",
+                "part_id":{"seat_surface":[0]},
+                "stand_point":[[8.0,2.3,0.86]]
+            },
+            "002": 
+            {
+                "name": "stand_point",
+                "id": "36",
+                "part_id":{"seat_surface":[0]},
+                "stand_point":[[7.0,5.5,0.86]]
+            },
+            "003": 
+            {
+                "name": "trans_can",
+                "id": "12",
+                "part_id":{"surface":[3]},
+                "stand_point":[[7.0,5.8,0.86]]
+            },
+            "004": 
+            {
+                "name": "stand_point",
+                "id": "12",
+                "part_id":{"surface":[3]},
+                "stand_point":[[1.5,3.5,0.86]]
+            },
+            "005": 
+            {
+                "name": "stand_point",
+                "id": "12",
+                "part_id":{"surface":[3]},
+                "stand_point":[[1.0,5.5,0.86]]
+            },
+            "006": 
+            {
+                "name": "couch",
+                "id": "32",
+                "part_id":{"pillow": [36], "surface": [0,1,3,4]},
+                "stand_point":[[3,6.0,0.86]]
+            }
+        }, 
+        "contact_pairs": [[["stand_point000", "none", "none", "none", "none"]], 
+                        [["toilet001", "none", "none", "none", "none"]], 
+                        [["toilet001", "seat_surface", "pelvis", "contact", "up"]],
+                        [["toilet001", "none", "none", "none", "none"]],
+                        [["stand_point000", "none", "none", "none", "none"]], 
+                        [["trans_can003", "none", "none", "none", "none"]],
+                        [["trans_can003", "surface", "right_hand", "contact", "up"]],
+                        [["stand_point004", "none", "none", "none", "none"]],
+                        [["stand_point005", "none", "none", "none", "none"]],
+                        [["couch006", "none", "none", "none", "none"]],
+                        [["couch006", "surface", "pelvis", "contact", "up"]],
+                        [["couch006", "surface", "pelvis", "contact", "up"],
+                        ["couch006", "pillow", "head", "contact", "none"],
+                        ["couch006", "surface", "left_foot", "contact", "none"],
+                        ["couch006", "surface", "right_foot", "contact", "none"]]
+                        ],
+        "init_pos": [3, 4]
+    }
+}
