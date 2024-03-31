@@ -48,6 +48,18 @@ Based on the definition, UniHSI constitutes a <b>Large Language Model (LLM) Plan
 </p>
 The whole pipeline consists of two major components: the LLM Planner and the Unified Controller. The LLM planner takes language inputs and background scenario information as inputs and outputs multi-step plan in the form of a Chain of Contacts. The Unified Controller then executes task plans step-by-step and output interaction movements.
 
+
+## Installation
+
+Download Isaac Gym from the [website](https://developer.nvidia.com/isaac-gym), then
+follow the installation instructions.
+
+Once Isaac Gym is installed, install the external dependencies for this repo:
+
+```
+pip install -r requirements.txt
+```
+
 ## 🔗 Citation
 
 If you find our work helpful, please cite:
