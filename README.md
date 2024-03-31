@@ -60,6 +60,13 @@ Once Isaac Gym is installed, install the external dependencies for this repo:
 pip install -r requirements.txt
 ```
 
+## Running
+
+```
+sh demo_scannet.sh
+```
+
+
 ## 🔗 Citation
 
 If you find our work helpful, please cite:
