@@ -5,5 +5,5 @@ python3 unihsi/run.py \
     --cfg_env unihsi/data/cfg/humanoid_unified_interaction_scene_1.yaml \
     --cfg_train unihsi/data/cfg/train/rlg/amp_humanoid_task_deep_layer.yaml \
     --motion_file samp_amp/chair_mo014.npy \
-    --checkpoint checkpoints/Humanoid.pth \
+    --checkpoint checkpoints/Humanoid2.pth \
     --obj_file sceneplan_demo/scannet_example.json
