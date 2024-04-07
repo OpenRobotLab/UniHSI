@@ -291,7 +291,7 @@ class UniHSI_PartNet_Train(humanoid_amp_task.HumanoidAMPTask):
         
 
         obj_idx = np.random.randint(0, self.plan_number, (self.num_scenes_row, self.num_scenes_col))
-        obj_rotate = np.random.rand(self.num_scenes_row, self.num_scenes_col) * 0.0
+        obj_rotate = np.random.rand(self.num_scenes_row, self.num_scenes_col) * 360.0
         obj_rotate_matrix = np.array([[np.cos(np.radians(obj_rotate)), -np.sin(np.radians(obj_rotate)), obj_rotate*0],
                                     [np.sin(np.radians(obj_rotate)), np.cos(np.radians(obj_rotate)), obj_rotate*0],
                                     [obj_rotate*0, obj_rotate*0, obj_rotate*0+1]])
