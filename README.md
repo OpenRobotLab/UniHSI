@@ -123,7 +123,7 @@ sh train_partnet_mid.sh
 sh train_partnet_hard.sh
 ```
 
-## Running
+## Demo
 
 ```
 sh demo_scannet.sh
