@@ -1,0 +1,139 @@
+motions:
+  - file: "locomotion_random.npy"
+    weight: 0.0303
+  - file: "run_circular.npy"
+    weight: 0.0303
+  - file: "run_random.npy"
+    weight: 0.0303
+  - file: "armchair.npy"
+    weight: 0.0303
+  - file: "armchair001.npy"
+    weight: 0.0303
+  - file: "armchair002.npy"
+    weight: 0.0303
+  - file: "armchair003.npy"
+    weight: 0.0303
+  - file: "armchair004.npy"
+    weight: 0.0303
+  - file: "armchair005.npy"
+    weight: 0.0303
+  - file: "armchair006.npy"
+    weight: 0.0303
+  - file: "armchair007.npy"
+    weight: 0.0303
+  - file: "armchair008.npy"
+    weight: 0.0303
+  - file: "armchair009.npy"
+    weight: 0.0303
+  - file: "armchair010.npy"
+    weight: 0.0303
+  - file: "armchair011.npy"
+    weight: 0.0303
+  - file: "chair_mo012.npy"
+    weight: 0.0303
+  - file: "armchair013.npy"
+    weight: 0.0303
+  - file: "armchair014.npy"
+    weight: 0.0303
+  - file: "armchair015.npy"
+    weight: 0.0303
+  - file: "armchair016.npy"
+    weight: 0.0303
+  - file: "chair_mo017.npy"
+    weight: 0.0303
+  - file: "armchair018.npy"
+    weight: 0.0303
+  - file: "armchair019.npy"
+    weight: 0.0303
+  - file: "chair_mo.npy"
+    weight: 0.0303
+  - file: "chair_mo001.npy"
+    weight: 0.0303
+  - file: "chair_mo002.npy"
+    weight: 0.0303
+  - file: "chair_mo003.npy"
+    weight: 0.0303
+  - file: "chair_mo004.npy"
+    weight: 0.0303
+  - file: "chair_mo005.npy"
+    weight: 0.0303
+  - file: "chair_mo006.npy"
+    weight: 0.0303
+  - file: "chair_mo007.npy"
+    weight: 0.0303
+  - file: "chair_mo008.npy"
+    weight: 0.0303
+  - file: "chair_mo009.npy"
+    weight: 0.0303
+  - file: "chair_mo010.npy"
+    weight: 0.0303
+  - file: "chair_mo011.npy"
+    weight: 0.0303
+  - file: "chair_mo012.npy"
+    weight: 0.0303
+  - file: "chair_mo013.npy"
+    weight: 0.0303
+  - file: "chair_mo014.npy"
+    weight: 0.0303
+  - file: "chair_mo015.npy"
+    weight: 0.0303
+  - file: "chair_mo016.npy"
+    weight: 0.0303
+  - file: "chair_mo017.npy"
+    weight: 0.0303
+  - file: "chair_mo018.npy"
+    weight: 0.0303
+  - file: "chair_mo019.npy"
+    weight: 0.0303
+  - file: "lie_down_2.npy"
+    weight: 0.0303
+  - file: "lie_down_3.npy"
+    weight: 0.0303
+  - file: "lie_down_4.npy"
+    weight: 0.0303
+  - file: "lie_down_17.npy"
+    weight: 0.0303
+  - file: "lie_down_6.npy"
+    weight: 0.0303
+  - file: "lie_down_7.npy"
+    weight: 0.0303
+  - file: "lie_down_8.npy"
+    weight: 0.0303
+  - file: "lie_down_9.npy"
+    weight: 0.0303
+  - file: "lie_down_10.npy"
+    weight: 0.0303
+  - file: "lie_down_11.npy"
+    weight: 0.0303
+  - file: "lie_down_12.npy"
+    weight: 0.0303
+  - file: "lie_down_13.npy"
+    weight: 0.0303
+  - file: "lie_down_14.npy"
+    weight: 0.0303
+  - file: "lie_down_15.npy"
+    weight: 0.0303
+  - file: "lie_down_16.npy"
+    weight: 0.0303
+  - file: "s1_bathroom1_shelf_4_bathroom1_0_001_reaching_001_reaching.npy"
+    weight: 0.0303
+  - file: "s1_laundryroom2_storage_1_laundryroom2_2_001_reaching_001_reaching.npy"
+    weight: 0.0303
+  - file: "s2_bathroom1_lights_1_bathroom1_4_001_reaching_001_reaching.npy"
+    weight: 0.0303
+  - file: "s2_left_bathroom1_lights_1_bathroom1_0_001_reaching_001_reaching.npy"
+    weight: 0.0303
+  - file: "s2_mediaroom2_desk_2_mediaroom2_0_001_reaching_001_reaching.npy"
+    weight: 0.0303
+  - file: "s2_mediaroom2_shelf_4_mediaroom2_1_001_A_reaching_001_A_reaching.npy"
+    weight: 0.0303
+  - file: "s4_left_laundryroom1_corner_1_laundryroom1_0_001_reaching_001_reaching.npy"
+    weight: 0.0303
+  - file: "s4_left_living1_couch_3_living1_0_001_reaching_001_reaching.npy"
+    weight: 0.0303
+  - file: "s5_left_bathroom1_shelf_1_bathroom1_0_001_reaching_001_reaching.npy"
+    weight: 0.0303
+  - file: "s6_left_laundryroom1_sink_1_laundryroom1_1_001_reaching_001_reaching.npy"
+    weight: 0.0303
+  - file: "s7_bathroom1_towels_1_bathroom1_1_001_reaching_001_reaching.npy"
+    weight: 0.0303

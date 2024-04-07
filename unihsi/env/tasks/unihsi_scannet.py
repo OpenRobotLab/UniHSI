@@ -251,7 +251,7 @@ class UniHSI_ScanNet(humanoid_amp_task.HumanoidAMPTask):
             plan = self.plan_items[plan_id]
             scene_id = plan['scene_id']
 
-            mesh = o3d.io.read_triangle_mesh('scannet_sample/scene'+scene_id+'_vh_clean_2.ply')
+            mesh = o3d.io.read_triangle_mesh('data/scannet/scene'+scene_id+'_vh_clean_2.ply')
             for r in plan['rotate']:
                 R = mesh.get_rotation_matrix_from_xyz(r)
                 mesh.rotate(R, center=(0, 0, 0))
@@ -337,12 +337,12 @@ class UniHSI_ScanNet(humanoid_amp_task.HumanoidAMPTask):
 
     # get part label mapping
     def _get_part_labels(self, scene_id, obj_id, part_ids):
-        with open('scannet_sample/scene'+scene_id+'_vh_clean_2.0.010000.segs.json', 'r') as fcc_file:
+        with open('data/scannet/scene'+scene_id+'_vh_clean_2.0.010000.segs.json', 'r') as fcc_file:
             result_file = fcc_file.read()
         result = json.loads(result_file)
         labels = np.array(result['segIndices'])
 
-        with open('scannet_sample/scene'+scene_id+'_vh_clean.aggregation.json', 'r') as fcc_file:
+        with open('data/scannet/scene'+scene_id+'_vh_clean.aggregation.json', 'r') as fcc_file:
             result_file = fcc_file.read()
         result = json.loads(result_file)
         aggre = result['segGroups']

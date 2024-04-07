@@ -28,6 +28,7 @@
 
 from env.tasks.unihsi_scannet import UniHSI_ScanNet
 from env.tasks.unihsi_partnet import UniHSI_PartNet
+from env.tasks.unihsi_partnet_train import UniHSI_PartNet_Train
 from isaacgym import rlgpu
 from env.tasks.vec_task_wrappers import VecTaskPythonWrapper
 

@@ -226,7 +226,7 @@ class UniHSI_PartNet(humanoid_amp_task.HumanoidAMPTask):
                     stand_point = [[0,0,0],[0,0,0],[0,0,0],[0,0,0]]
                 obj_pcd = pcd[int(obj_id)*10000:(int(obj_id)+1)*10000]
                 if pair[1] != 'none' and pair[1] not in self.joint_name:
-                    part_pcd = self._get_obj_parts([pair[1]], label_mapping, label, obj_pcd, stand_point)
+                    part_pcd = self._get_obj_parts(pair[0], [pair[1]], label_mapping, label, obj_pcd, stand_point)
                     joint_number = self.joint_mapping[pair[2]]
                     self.obj_pcd_buffer[plan_id, step_idx, joint_number] = part_pcd[0]
                     contact_type_step[joint_number] = 1 if pair[3] == 'contact' else 0
@@ -264,7 +264,7 @@ class UniHSI_PartNet(humanoid_amp_task.HumanoidAMPTask):
             for obj_id in objs:
                 obj = objs[obj_id]
                 pid = obj['id']
-                mesh = o3d.io.read_triangle_mesh('../partnet/'+pid+'/models/model_normalized.obj')
+                mesh = o3d.io.read_triangle_mesh('data/partnet/'+pid+'/models/model_normalized.obj')
                 for r in obj['rotate']:
                     R = mesh.get_rotation_matrix_from_xyz(r)
                     mesh.rotate(R, center=(0, 0, 0))
@@ -291,7 +291,7 @@ class UniHSI_PartNet(humanoid_amp_task.HumanoidAMPTask):
         
 
         obj_idx = np.random.randint(0, self.plan_number, (self.num_scenes_row, self.num_scenes_col))
-        obj_rotate = np.random.rand(self.num_scenes_row, self.num_scenes_col) * 10.0
+        obj_rotate = np.random.rand(self.num_scenes_row, self.num_scenes_col) * 0.0
         obj_rotate_matrix = np.array([[np.cos(np.radians(obj_rotate)), -np.sin(np.radians(obj_rotate)), obj_rotate*0],
                                     [np.sin(np.radians(obj_rotate)), np.cos(np.radians(obj_rotate)), obj_rotate*0],
                                     [obj_rotate*0, obj_rotate*0, obj_rotate*0+1]])
@@ -337,7 +337,7 @@ class UniHSI_PartNet(humanoid_amp_task.HumanoidAMPTask):
     
     def _load_pcd(self, min_mesh_dict):
 
-        trans_mat_path = '../partnet/chair_table_storagefurniture_bed_shapenetv1_to_partnet_alignment.json'
+        trans_mat_path = 'data/partnet/chair_table_storagefurniture_bed_shapenetv1_to_partnet_alignment.json'
         with open(trans_mat_path, 'r') as fcc_file:
             trans_mat = fcc_file.read()
         trans_mat = json.loads(trans_mat)
@@ -351,11 +351,9 @@ class UniHSI_PartNet(humanoid_amp_task.HumanoidAMPTask):
             for obj_id in objs:
                 obj = objs[obj_id]
                 pid = obj['id']
-                pcd = o3d.io.read_point_cloud("../partnet/"+pid+"/point_sample/sample-points-all-pts-label-10000.ply")
+                pcd = o3d.io.read_point_cloud("data/partnet/"+pid+"/point_sample/sample-points-all-pts-label-10000.ply")
 
-                if pid == '11570' or pid == "11873":
-                    pcd.scale(0.5, center=pcd.get_center())
-                elif pid == '5861':
+                if pid == '11570' or pid == "11873" or pid == "4376" or pid == "5861":
                     pcd.scale(0.5, center=pcd.get_center())
                 else:
                     matrix = np.array(trans_mat[pid]['transmat']).reshape(4,4)
@@ -448,9 +446,9 @@ class UniHSI_PartNet(humanoid_amp_task.HumanoidAMPTask):
         offset = 0
         labels = []
         for pid in partnet_id:
-            label_file = "../partnet/"+pid+"/point_sample/sample-points-all-label-10000.txt"
+            label_file = "data/partnet/"+pid+"/point_sample/sample-points-all-label-10000.txt"
             label = load_label(label_file) + offset
-            result_file = "../partnet/"+pid+"/result.json"
+            result_file = "data/partnet/"+pid+"/result.json"
             with open(result_file, 'r') as fcc_file:
                 result_file = fcc_file.read()
             result = json.loads(result_file)
@@ -463,7 +461,7 @@ class UniHSI_PartNet(humanoid_amp_task.HumanoidAMPTask):
         
         return labels, result_dict_full
 
-    def _get_obj_parts(self, contact_parts, label_mapping, label, pcd, stand_point):
+    def _get_obj_parts(self, object, contact_parts, label_mapping, label, pcd, stand_point):
 
         max_x, min_x, max_y, min_y = pcd[:, 0].max(), pcd[:, 0].min(), pcd[:, 1].max(), pcd[:, 1].min()   
 
@@ -474,7 +472,12 @@ class UniHSI_PartNet(humanoid_amp_task.HumanoidAMPTask):
                 out_part_pcd[:,0] = out_part_pcd[:,0] * ((max_x+0.5)-(min_x-0.5)) + min_x-0.5
                 out_part_pcd[:,1] = out_part_pcd[:,1] * ((max_y+0.5)-(min_y-0.5)) + min_y-0.5
                 out_part_pcd[:,2] = out_part_pcd[:,2] * 0.08
-                mask = ((out_part_pcd[:,0]>max_x) | (out_part_pcd[:,0]<min_x)) | ((out_part_pcd[:,1]>max_y) | (out_part_pcd[:,1]<min_y))
+                if object[:3] == "bed":
+                    mask = (out_part_pcd[:,1]>max_y+0.2)
+                elif  object[:3] == "chair":
+                    mask = (out_part_pcd[:,0]>max_x)
+                else:
+                    mask = ((out_part_pcd[:,0]>max_x) | (out_part_pcd[:,0]<min_x)) | ((out_part_pcd[:,1]>max_y) | (out_part_pcd[:,1]<min_y))
                 out_part_pcd = out_part_pcd[mask]
             else:
                 idx = label_mapping[p]
@@ -549,7 +552,7 @@ class UniHSI_PartNet(humanoid_amp_task.HumanoidAMPTask):
         contact_type_steps = self.contact_type_step[self.scene_for_env, self.step_mode]
         contact_valid_steps = self.contact_valid_step[self.scene_for_env, self.step_mode]
         fulfill = ((contact_valid_steps & \
-                     (((contact_type_steps) & (self.joint_diff_buff < 0.05)) | (((~contact_type_steps) & (self.joint_diff_buff >= 0.05))))) \
+                     (((contact_type_steps) & (self.joint_diff_buff < 0.1)) | (((~contact_type_steps) & (self.joint_diff_buff >= 0.05))))) \
                         | (~contact_valid_steps))[env_ids] & (success[:, None]) # need add contact direction
         fulfill = torch.all(fulfill, dim=-1)
 
@@ -786,10 +789,6 @@ def compute_strike_observations(root_states, tar_pos, joint_pos_buffer, pcd_buff
     height_map[~valid_mask] = 0.0
     height_map = height_map.reshape(shape[0], shape[2]).float()
 
-    # uncomment when infer
-    local_tar_pos_norm = torch.sqrt(local_tar_pos[:, 0]*local_tar_pos[:, 0] + local_tar_pos[:, 1]*local_tar_pos[:, 1])
-    local_tar_pos[local_tar_pos_norm>1, :2] /= local_tar_pos_norm[local_tar_pos_norm>1][:, None]
-
 
     contact_direction = contact_direction.reshape(-1, 45)
     obs = torch.cat([local_tar_pos, local_tar_rot_obs, local_tar_vel, tar_dir, contact_type, contact_valid, height_map], dim=-1)
@@ -807,7 +806,7 @@ def compute_contact_reward(target, root_state, pcd_buffer, joint_pos_buffer,
     # type: (Tensor, Tensor, Tensor, Tensor, Tensor, float, float) -> Tensor
     dist_threshold = 0.2
 
-    pos_err_scale = 5
+    pos_err_scale = 0.5
     vel_err_scale = 2.0
     near_pos_err_scale = 10
 
