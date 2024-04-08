@@ -135,11 +135,13 @@ sh demo_scannet.sh
 If you find our work helpful, please cite:
 
 ```bibtex
-@article{xiao2023unified,
-  author    = {Xiao, Zeqi and Wang, Tai and Wang, Jingbo and Cao, Jinkun and Dai, Bo and Lin, Dahua and Pang, Jiangmiao},
-  title     = {Unified Human-Scene Interaction via Prompted Chain-of-Contacts},
-  journal   = {Arxiv},
-  year      = {2023},
+@inproceedings{
+xiao2024unified,
+title={Unified Human-Scene Interaction via Prompted Chain-of-Contacts},
+author={Zeqi Xiao and Tai Wang and Jingbo Wang and Jinkun Cao and Wenwei Zhang and Bo Dai and Dahua Lin and Jiangmiao Pang},
+booktitle={The Twelfth International Conference on Learning Representations},
+year={2024},
+url={https://openreview.net/forum?id=1vCnDyQkjg}
 }
 ```
 
