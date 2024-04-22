@@ -136,12 +136,12 @@ If you find our work helpful, please cite:
 
 ```bibtex
 @inproceedings{
-xiao2024unified,
-title={Unified Human-Scene Interaction via Prompted Chain-of-Contacts},
-author={Zeqi Xiao and Tai Wang and Jingbo Wang and Jinkun Cao and Wenwei Zhang and Bo Dai and Dahua Lin and Jiangmiao Pang},
-booktitle={The Twelfth International Conference on Learning Representations},
-year={2024},
-url={https://openreview.net/forum?id=1vCnDyQkjg}
+  xiao2024unified,
+  title={Unified Human-Scene Interaction via Prompted Chain-of-Contacts},
+  author={Zeqi Xiao and Tai Wang and Jingbo Wang and Jinkun Cao and Wenwei Zhang and Bo Dai and Dahua Lin and Jiangmiao Pang},
+  booktitle={The Twelfth International Conference on Learning Representations},
+  year={2024},
+  url={https://openreview.net/forum?id=1vCnDyQkjg}
 }
 ```
 
