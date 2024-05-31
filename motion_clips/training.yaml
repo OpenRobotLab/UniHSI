@@ -29,7 +29,7 @@ motions:
     weight: 0.0303
   - file: "armchair011.npy"
     weight: 0.0303
-  - file: "chair_mo012.npy"
+  - file: "armchair012.npy"
     weight: 0.0303
   - file: "armchair013.npy"
     weight: 0.0303
@@ -39,7 +39,7 @@ motions:
     weight: 0.0303
   - file: "armchair016.npy"
     weight: 0.0303
-  - file: "chair_mo017.npy"
+  - file: "armchair017.npy"
     weight: 0.0303
   - file: "armchair018.npy"
     weight: 0.0303
