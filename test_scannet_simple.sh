@@ -1,11 +1,11 @@
 python unihsi/run.py \
-    --task UniHSI_PartNet_Test\
+    --task UniHSI_ScanNet_Test\
     --test \
-    --num_envs 256 \
-    --cfg_env unihsi/data/cfg/humanoid_unified_interaction_scene_16_mid.yaml \
+    --num_envs 16 \
+    --cfg_env unihsi/data/cfg/humanoid_unified_interaction_scene_4_simple_scannet.yaml \
     --cfg_train unihsi/data/cfg/train/rlg/amp_humanoid_task_deep_layer_test.yaml \
     --motion_file motion_clips/armchair.npy \
     --output_path output/ \
     --headless \
     --checkpoint checkpoints/Humanoid.pth \
-    --obj_file sceneplan/partnet_test_mid_partnet.json
+    --obj_file sceneplan/scannet_test_simple.json

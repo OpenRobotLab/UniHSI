@@ -1,0 +1,2822 @@
+{
+    "0001": {
+        "scene_id": "0025_00",
+        "rotate": [
+            [
+                0,
+                0,
+                -0.5
+            ]
+        ],
+        "scale": 1,
+        "transfer": [
+            0,
+            0,
+            -0.1
+        ],
+        "obj": {
+            "000": {
+                "name": "couch",
+                "id": "3",
+                "part_id": {
+                    "back": [
+                        1
+                    ],
+                    "seat_surface": [
+                        11
+                    ],
+                    "right_arm": [
+                        0
+                    ]
+                },
+                "stand_point": [
+                    [
+                        3.0,
+                        2.2,
+                        0.86
+                    ]
+                ]
+            },
+            "001": {
+                "name": "couch",
+                "id": "4",
+                "part_id": {
+                    "back": [
+                        1
+                    ],
+                    "seat_surface": [
+                        0
+                    ],
+                    "left_arm": [
+                        5
+                    ]
+                },
+                "stand_point": [
+                    [
+                        4,
+                        3,
+                        0.86
+                    ]
+                ]
+            }
+        },
+        "contact_pairs": [
+            [
+                [
+                    "couch000",
+                    "none",
+                    "none",
+                    "none",
+                    "none"
+                ]
+            ],
+            [
+                [
+                    "couch000",
+                    "seat_surface",
+                    "pelvis",
+                    "contact",
+                    "up"
+                ]
+            ],
+            [
+                [
+                    "couch000",
+                    "seat_surface",
+                    "pelvis",
+                    "contact",
+                    "up"
+                ],
+                [
+                    "couch000",
+                    "back",
+                    "torso",
+                    "contact",
+                    "none"
+                ]
+            ]
+        ],
+        "init_pos": [
+            4,
+            3
+        ]
+    },
+    "0002": {
+        "scene_id": "0013_00",
+        "rotate": [
+            [
+                0,
+                -0.0,
+                0.0
+            ]
+        ],
+        "scale": 1,
+        "transfer": [
+            0,
+            0,
+            -0.1
+        ],
+        "obj": {
+            "000": {
+                "name": "chair",
+                "id": "1",
+                "part_id": {
+                    "back": [
+                        8
+                    ],
+                    "seat_surface": [
+                        4
+                    ]
+                },
+                "stand_point": [
+                    [
+                        3.5,
+                        4.0,
+                        0.86
+                    ]
+                ]
+            },
+            "001": {
+                "name": "chair",
+                "id": "2",
+                "part_id": {
+                    "back": [
+                        1
+                    ],
+                    "seat_surface": [
+                        9
+                    ]
+                },
+                "stand_point": [
+                    [
+                        3.5,
+                        3.5,
+                        0.86
+                    ]
+                ]
+            },
+            "002": {
+                "name": "chair",
+                "id": "3",
+                "part_id": {
+                    "back": [
+                        2
+                    ],
+                    "seat_surface": [
+                        1
+                    ]
+                },
+                "stand_point": [
+                    [
+                        3.7,
+                        4.7,
+                        0.86
+                    ]
+                ]
+            },
+            "003": {
+                "name": "chair",
+                "id": "0",
+                "part_id": {
+                    "back": [
+                        10
+                    ],
+                    "seat_surface": [
+                        5
+                    ]
+                },
+                "stand_point": [
+                    [
+                        4.0,
+                        5.2,
+                        0.86
+                    ]
+                ]
+            }
+        },
+        "contact_pairs": [
+            [
+                [
+                    "chair000",
+                    "none",
+                    "none",
+                    "none",
+                    "none"
+                ]
+            ],
+            [
+                [
+                    "chair000",
+                    "seat_surface",
+                    "pelvis",
+                    "contact",
+                    "up"
+                ]
+            ],
+            [
+                [
+                    "chair000",
+                    "seat_surface",
+                    "pelvis",
+                    "contact",
+                    "up"
+                ],
+                [
+                    "chair000",
+                    "back",
+                    "torso",
+                    "contact",
+                    "none"
+                ]
+            ],
+            [
+                [
+                    "chair000",
+                    "none",
+                    "none",
+                    "none",
+                    "none"
+                ]
+            ]
+        ],
+        "init_pos": [
+            3.5,
+            4
+        ]
+    },
+    "0005": {
+        "scene_id": "0025_00",
+        "rotate": [
+            [
+                0,
+                0,
+                -0.5
+            ]
+        ],
+        "scale": 1,
+        "transfer": [
+            0,
+            0,
+            -0.1
+        ],
+        "obj": {
+            "000": {
+                "name": "couch",
+                "id": "3",
+                "part_id": {
+                    "back": [
+                        1
+                    ],
+                    "seat_surface": [
+                        11
+                    ],
+                    "right_arm": [
+                        0
+                    ]
+                },
+                "stand_point": [
+                    [
+                        3.0,
+                        2.2,
+                        0.86
+                    ]
+                ]
+            },
+            "001": {
+                "name": "couch",
+                "id": "4",
+                "part_id": {
+                    "back": [
+                        1
+                    ],
+                    "seat_surface": [
+                        0
+                    ],
+                    "left_arm": [
+                        5
+                    ]
+                },
+                "stand_point": [
+                    [
+                        4,
+                        3,
+                        0.86
+                    ]
+                ]
+            }
+        },
+        "contact_pairs": [
+            [
+                [
+                    "couch001",
+                    "none",
+                    "none",
+                    "none",
+                    "none"
+                ]
+            ],
+            [
+                [
+                    "couch001",
+                    "seat_surface",
+                    "pelvis",
+                    "contact",
+                    "up"
+                ]
+            ],
+            [
+                [
+                    "couch001",
+                    "seat_surface",
+                    "pelvis",
+                    "contact",
+                    "up"
+                ],
+                [
+                    "couch001",
+                    "back",
+                    "torso",
+                    "not contact",
+                    "none"
+                ]
+            ]
+        ],
+        "init_pos": [
+            4,
+            3
+        ]
+    },
+    "0008": {
+        "scene_id": "0030_00",
+        "rotate": [
+            [
+                0,
+                0,
+                -0.5
+            ]
+        ],
+        "scale": 1,
+        "transfer": [
+            0,
+            0,
+            -0.1
+        ],
+        "obj": {
+            "000": {
+                "name": "chair",
+                "id": "3",
+                "part_id": {
+                    "back": [
+                        3
+                    ],
+                    "seat_surface": [
+                        0
+                    ]
+                },
+                "stand_point": [
+                    [
+                        2.1,
+                        1.45,
+                        0.86
+                    ]
+                ]
+            },
+            "001": {
+                "name": "bookshelf",
+                "id": "20",
+                "part_id": {
+                    "book": [
+                        12
+                    ]
+                },
+                "stand_point": [
+                    [
+                        1.5,
+                        1,
+                        0.86
+                    ]
+                ]
+            }
+        },
+        "contact_pairs": [
+            [
+                [
+                    "chair000",
+                    "none",
+                    "none",
+                    "none",
+                    "none"
+                ]
+            ],
+            [
+                [
+                    "chair000",
+                    "seat_surface",
+                    "pelvis",
+                    "contact",
+                    "up"
+                ]
+            ],
+            [
+                [
+                    "chair000",
+                    "seat_surface",
+                    "pelvis",
+                    "contact",
+                    "up"
+                ],
+                [
+                    "chair000",
+                    "back",
+                    "torso",
+                    "contact",
+                    "none"
+                ]
+            ],
+            [
+                [
+                    "chair000",
+                    "none",
+                    "none",
+                    "none",
+                    "none"
+                ]
+            ]
+        ],
+        "init_pos": [
+            3.5,
+            2
+        ]
+    },
+    "0013": {
+        "scene_id": "0030_00",
+        "rotate": [
+            [
+                0,
+                0,
+                -0.5
+            ]
+        ],
+        "scale": 1,
+        "transfer": [
+            0,
+            0,
+            -0.1
+        ],
+        "obj": {
+            "000": {
+                "name": "chair",
+                "id": "3",
+                "part_id": {
+                    "back": [
+                        3
+                    ],
+                    "seat_surface": [
+                        0
+                    ]
+                },
+                "stand_point": [
+                    [
+                        2.1,
+                        1.45,
+                        0.86
+                    ]
+                ]
+            },
+            "001": {
+                "name": "bookshelf",
+                "id": "20",
+                "part_id": {
+                    "book": [
+                        12
+                    ]
+                },
+                "stand_point": [
+                    [
+                        1.5,
+                        1,
+                        0.86
+                    ]
+                ]
+            }
+        },
+        "contact_pairs": [
+            [
+                [
+                    "chair000",
+                    "none",
+                    "none",
+                    "none",
+                    "none"
+                ]
+            ],
+            [
+                [
+                    "chair000",
+                    "seat_surface",
+                    "pelvis",
+                    "contact",
+                    "up"
+                ]
+            ],
+            [
+                [
+                    "chair000",
+                    "seat_surface",
+                    "pelvis",
+                    "contact",
+                    "up"
+                ],
+                [
+                    "chair000",
+                    "back",
+                    "torso",
+                    "contact",
+                    "none"
+                ]
+            ]
+        ],
+        "init_pos": [
+            3.5,
+            2
+        ]
+    },
+    "0020": {
+        "scene_id": "0025_00",
+        "rotate": [
+            [
+                0,
+                0,
+                -0.5
+            ]
+        ],
+        "scale": 1,
+        "transfer": [
+            0,
+            0,
+            -0.1
+        ],
+        "obj": {
+            "000": {
+                "name": "couch",
+                "id": "3",
+                "part_id": {
+                    "back": [
+                        1
+                    ],
+                    "seat_surface": [
+                        11
+                    ],
+                    "right_arm": [
+                        0
+                    ]
+                },
+                "stand_point": [
+                    [
+                        3.0,
+                        2.2,
+                        0.86
+                    ]
+                ]
+            },
+            "001": {
+                "name": "couch",
+                "id": "4",
+                "part_id": {
+                    "back": [
+                        1
+                    ],
+                    "seat_surface": [
+                        0
+                    ],
+                    "left_arm": [
+                        5
+                    ]
+                },
+                "stand_point": [
+                    [
+                        4,
+                        3,
+                        0.86
+                    ]
+                ]
+            }
+        },
+        "contact_pairs": [
+            [
+                [
+                    "couch000",
+                    "none",
+                    "none",
+                    "none",
+                    "none"
+                ]
+            ],
+            [
+                [
+                    "couch000",
+                    "seat_surface",
+                    "pelvis",
+                    "contact",
+                    "up"
+                ]
+            ],
+            [
+                [
+                    "couch000",
+                    "seat_surface",
+                    "pelvis",
+                    "contact",
+                    "up"
+                ],
+                [
+                    "couch000",
+                    "back",
+                    "torso",
+                    "not contact",
+                    "none"
+                ]
+            ]
+        ],
+        "init_pos": [
+            4,
+            3
+        ]
+    },
+    "0042": {
+        "scene_id": "0004_00",
+        "rotate": [
+            [
+                -0.07,
+                -0.2,
+                0.0
+            ]
+        ],
+        "scale": 1,
+        "transfer": [
+            0,
+            0,
+            -0.15
+        ],
+        "obj": {
+            "000": {
+                "name": "chair",
+                "id": "11",
+                "part_id": {
+                    "back": [
+                        4
+                    ],
+                    "seat_surface": [
+                        0
+                    ]
+                },
+                "stand_point": [
+                    [
+                        4.0,
+                        5.0,
+                        0.86
+                    ]
+                ]
+            },
+            "001": {
+                "name": "chair",
+                "id": "10",
+                "part_id": {
+                    "back": [
+                        0
+                    ],
+                    "seat_surface": [
+                        1
+                    ]
+                },
+                "stand_point": [
+                    [
+                        3.5,
+                        4.5,
+                        0.86
+                    ]
+                ]
+            },
+            "002": {
+                "name": "chair",
+                "id": "9",
+                "part_id": {
+                    "back": [
+                        0
+                    ],
+                    "seat_surface": [
+                        1
+                    ]
+                },
+                "stand_point": [
+                    [
+                        4.8,
+                        7.2,
+                        0.86
+                    ]
+                ]
+            },
+            "003": {
+                "name": "chair",
+                "id": "5",
+                "part_id": {
+                    "back": [
+                        18
+                    ],
+                    "seat_surface": [
+                        19
+                    ]
+                },
+                "stand_point": [
+                    [
+                        3.0,
+                        4.0,
+                        0.86
+                    ]
+                ]
+            }
+        },
+        "contact_pairs": [
+            [
+                [
+                    "chair002",
+                    "none",
+                    "none",
+                    "none",
+                    "none"
+                ]
+            ],
+            [
+                [
+                    "chair002",
+                    "seat_surface",
+                    "pelvis",
+                    "contact",
+                    "up"
+                ]
+            ],
+            [
+                [
+                    "chair002",
+                    "seat_surface",
+                    "pelvis",
+                    "contact",
+                    "up"
+                ],
+                [
+                    "chair002",
+                    "back",
+                    "torso",
+                    "not contact",
+                    "none"
+                ]
+            ],
+            [
+                [
+                    "chair002",
+                    "none",
+                    "none",
+                    "none",
+                    "none"
+                ]
+            ]
+        ],
+        "init_pos": [
+            3,
+            4
+        ]
+    },
+    "0044": {
+        "scene_id": "0025_00",
+        "rotate": [
+            [
+                0,
+                0,
+                -0.5
+            ]
+        ],
+        "scale": 1,
+        "transfer": [
+            0,
+            0,
+            -0.1
+        ],
+        "obj": {
+            "000": {
+                "name": "couch",
+                "id": "3",
+                "part_id": {
+                    "back": [
+                        1
+                    ],
+                    "seat_surface": [
+                        11
+                    ],
+                    "right_arm": [
+                        0
+                    ]
+                },
+                "stand_point": [
+                    [
+                        3.0,
+                        2.2,
+                        0.86
+                    ]
+                ]
+            },
+            "001": {
+                "name": "couch",
+                "id": "4",
+                "part_id": {
+                    "back": [
+                        1
+                    ],
+                    "seat_surface": [
+                        0
+                    ],
+                    "left_arm": [
+                        5
+                    ]
+                },
+                "stand_point": [
+                    [
+                        4,
+                        3,
+                        0.86
+                    ]
+                ]
+            }
+        },
+        "contact_pairs": [
+            [
+                [
+                    "couch001",
+                    "none",
+                    "none",
+                    "none",
+                    "none"
+                ]
+            ],
+            [
+                [
+                    "couch001",
+                    "seat_surface",
+                    "pelvis",
+                    "contact",
+                    "up"
+                ]
+            ],
+            [
+                [
+                    "couch001",
+                    "seat_surface",
+                    "pelvis",
+                    "contact",
+                    "up"
+                ],
+                [
+                    "couch001",
+                    "back",
+                    "torso",
+                    "contact",
+                    "none"
+                ]
+            ]
+        ],
+        "init_pos": [
+            4,
+            3
+        ]
+    },
+    "0048": {
+        "scene_id": "0004_00",
+        "rotate": [
+            [
+                -0.07,
+                -0.2,
+                0.0
+            ]
+        ],
+        "scale": 1,
+        "transfer": [
+            0,
+            0,
+            -0.15
+        ],
+        "obj": {
+            "000": {
+                "name": "chair",
+                "id": "11",
+                "part_id": {
+                    "back": [
+                        4
+                    ],
+                    "seat_surface": [
+                        0
+                    ]
+                },
+                "stand_point": [
+                    [
+                        4.0,
+                        5.0,
+                        0.86
+                    ]
+                ]
+            },
+            "001": {
+                "name": "chair",
+                "id": "10",
+                "part_id": {
+                    "back": [
+                        0
+                    ],
+                    "seat_surface": [
+                        1
+                    ]
+                },
+                "stand_point": [
+                    [
+                        3.5,
+                        4.5,
+                        0.86
+                    ]
+                ]
+            },
+            "002": {
+                "name": "chair",
+                "id": "9",
+                "part_id": {
+                    "back": [
+                        0
+                    ],
+                    "seat_surface": [
+                        1
+                    ]
+                },
+                "stand_point": [
+                    [
+                        4.8,
+                        7.2,
+                        0.86
+                    ]
+                ]
+            },
+            "003": {
+                "name": "chair",
+                "id": "5",
+                "part_id": {
+                    "back": [
+                        18
+                    ],
+                    "seat_surface": [
+                        19
+                    ]
+                },
+                "stand_point": [
+                    [
+                        3.0,
+                        4.0,
+                        0.86
+                    ]
+                ]
+            }
+        },
+        "contact_pairs": [
+            [
+                [
+                    "chair001",
+                    "none",
+                    "none",
+                    "none",
+                    "none"
+                ]
+            ],
+            [
+                [
+                    "chair001",
+                    "seat_surface",
+                    "pelvis",
+                    "contact",
+                    "up"
+                ]
+            ],
+            [
+                [
+                    "chair001",
+                    "seat_surface",
+                    "pelvis",
+                    "contact",
+                    "up"
+                ],
+                [
+                    "chair001",
+                    "back",
+                    "torso",
+                    "contact",
+                    "none"
+                ]
+            ],
+            [
+                [
+                    "chair001",
+                    "none",
+                    "none",
+                    "none",
+                    "none"
+                ]
+            ]
+        ],
+        "init_pos": [
+            3,
+            4
+        ]
+    },
+    "0051": {
+        "scene_id": "0030_00",
+        "rotate": [
+            [
+                0,
+                0,
+                -0.5
+            ]
+        ],
+        "scale": 1,
+        "transfer": [
+            0,
+            0,
+            -0.1
+        ],
+        "obj": {
+            "000": {
+                "name": "chair",
+                "id": "3",
+                "part_id": {
+                    "back": [
+                        3
+                    ],
+                    "seat_surface": [
+                        0
+                    ]
+                },
+                "stand_point": [
+                    [
+                        2.1,
+                        1.45,
+                        0.86
+                    ]
+                ]
+            },
+            "001": {
+                "name": "bookshelf",
+                "id": "20",
+                "part_id": {
+                    "book": [
+                        12
+                    ]
+                },
+                "stand_point": [
+                    [
+                        1.5,
+                        1,
+                        0.86
+                    ]
+                ]
+            }
+        },
+        "contact_pairs": [
+            [
+                [
+                    "chair000",
+                    "none",
+                    "none",
+                    "none",
+                    "none"
+                ]
+            ],
+            [
+                [
+                    "chair000",
+                    "seat_surface",
+                    "pelvis",
+                    "contact",
+                    "up"
+                ]
+            ],
+            [
+                [
+                    "chair000",
+                    "seat_surface",
+                    "pelvis",
+                    "contact",
+                    "up"
+                ],
+                [
+                    "chair000",
+                    "back",
+                    "torso",
+                    "contact",
+                    "none"
+                ]
+            ],
+            [
+                [
+                    "chair000",
+                    "seat_surface",
+                    "pelvis",
+                    "contact",
+                    "up"
+                ]
+            ]
+        ],
+        "init_pos": [
+            3.5,
+            2
+        ]
+    },
+    "0054": {
+        "scene_id": "0004_00",
+        "rotate": [
+            [
+                -0.07,
+                -0.2,
+                0.0
+            ]
+        ],
+        "scale": 1,
+        "transfer": [
+            0,
+            0,
+            -0.15
+        ],
+        "obj": {
+            "000": {
+                "name": "chair",
+                "id": "11",
+                "part_id": {
+                    "back": [
+                        4
+                    ],
+                    "seat_surface": [
+                        0
+                    ]
+                },
+                "stand_point": [
+                    [
+                        4.0,
+                        5.0,
+                        0.86
+                    ]
+                ]
+            },
+            "001": {
+                "name": "chair",
+                "id": "10",
+                "part_id": {
+                    "back": [
+                        0
+                    ],
+                    "seat_surface": [
+                        1
+                    ]
+                },
+                "stand_point": [
+                    [
+                        3.5,
+                        4.5,
+                        0.86
+                    ]
+                ]
+            },
+            "002": {
+                "name": "chair",
+                "id": "9",
+                "part_id": {
+                    "back": [
+                        0
+                    ],
+                    "seat_surface": [
+                        1
+                    ]
+                },
+                "stand_point": [
+                    [
+                        4.8,
+                        7.2,
+                        0.86
+                    ]
+                ]
+            },
+            "003": {
+                "name": "chair",
+                "id": "5",
+                "part_id": {
+                    "back": [
+                        18
+                    ],
+                    "seat_surface": [
+                        19
+                    ]
+                },
+                "stand_point": [
+                    [
+                        3.0,
+                        4.0,
+                        0.86
+                    ]
+                ]
+            }
+        },
+        "contact_pairs": [
+            [
+                [
+                    "chair001",
+                    "none",
+                    "none",
+                    "none",
+                    "none"
+                ]
+            ],
+            [
+                [
+                    "chair001",
+                    "seat_surface",
+                    "pelvis",
+                    "contact",
+                    "up"
+                ]
+            ],
+            [
+                [
+                    "chair001",
+                    "seat_surface",
+                    "pelvis",
+                    "contact",
+                    "up"
+                ],
+                [
+                    "chair001",
+                    "back",
+                    "torso",
+                    "not contact",
+                    "none"
+                ]
+            ],
+            [
+                [
+                    "chair001",
+                    "none",
+                    "none",
+                    "none",
+                    "none"
+                ]
+            ]
+        ],
+        "init_pos": [
+            3,
+            4
+        ]
+    },
+    "0055": {
+        "scene_id": "0004_00",
+        "rotate": [
+            [
+                -0.07,
+                -0.2,
+                0.0
+            ]
+        ],
+        "scale": 1,
+        "transfer": [
+            0,
+            0,
+            -0.15
+        ],
+        "obj": {
+            "000": {
+                "name": "chair",
+                "id": "11",
+                "part_id": {
+                    "back": [
+                        4
+                    ],
+                    "seat_surface": [
+                        0
+                    ]
+                },
+                "stand_point": [
+                    [
+                        4.0,
+                        5.0,
+                        0.86
+                    ]
+                ]
+            },
+            "001": {
+                "name": "chair",
+                "id": "10",
+                "part_id": {
+                    "back": [
+                        0
+                    ],
+                    "seat_surface": [
+                        1
+                    ]
+                },
+                "stand_point": [
+                    [
+                        3.5,
+                        4.5,
+                        0.86
+                    ]
+                ]
+            },
+            "002": {
+                "name": "chair",
+                "id": "9",
+                "part_id": {
+                    "back": [
+                        0
+                    ],
+                    "seat_surface": [
+                        1
+                    ]
+                },
+                "stand_point": [
+                    [
+                        4.8,
+                        7.2,
+                        0.86
+                    ]
+                ]
+            },
+            "003": {
+                "name": "chair",
+                "id": "5",
+                "part_id": {
+                    "back": [
+                        18
+                    ],
+                    "seat_surface": [
+                        19
+                    ]
+                },
+                "stand_point": [
+                    [
+                        3.0,
+                        4.0,
+                        0.86
+                    ]
+                ]
+            }
+        },
+        "contact_pairs": [
+            [
+                [
+                    "chair003",
+                    "none",
+                    "none",
+                    "none",
+                    "none"
+                ]
+            ],
+            [
+                [
+                    "chair003",
+                    "seat_surface",
+                    "pelvis",
+                    "contact",
+                    "up"
+                ]
+            ],
+            [
+                [
+                    "chair003",
+                    "seat_surface",
+                    "pelvis",
+                    "contact",
+                    "up"
+                ],
+                [
+                    "chair003",
+                    "back",
+                    "torso",
+                    "contact",
+                    "none"
+                ]
+            ],
+            [
+                [
+                    "chair003",
+                    "none",
+                    "none",
+                    "none",
+                    "none"
+                ]
+            ]
+        ],
+        "init_pos": [
+            3,
+            4
+        ]
+    },
+    "0057": {
+        "scene_id": "0004_00",
+        "rotate": [
+            [
+                -0.07,
+                -0.2,
+                0.0
+            ]
+        ],
+        "scale": 1,
+        "transfer": [
+            0,
+            0,
+            -0.15
+        ],
+        "obj": {
+            "000": {
+                "name": "chair",
+                "id": "11",
+                "part_id": {
+                    "back": [
+                        4
+                    ],
+                    "seat_surface": [
+                        0
+                    ]
+                },
+                "stand_point": [
+                    [
+                        4.0,
+                        5.0,
+                        0.86
+                    ]
+                ]
+            },
+            "001": {
+                "name": "chair",
+                "id": "10",
+                "part_id": {
+                    "back": [
+                        0
+                    ],
+                    "seat_surface": [
+                        1
+                    ]
+                },
+                "stand_point": [
+                    [
+                        3.5,
+                        4.5,
+                        0.86
+                    ]
+                ]
+            },
+            "002": {
+                "name": "chair",
+                "id": "9",
+                "part_id": {
+                    "back": [
+                        0
+                    ],
+                    "seat_surface": [
+                        1
+                    ]
+                },
+                "stand_point": [
+                    [
+                        4.8,
+                        7.2,
+                        0.86
+                    ]
+                ]
+            },
+            "003": {
+                "name": "chair",
+                "id": "5",
+                "part_id": {
+                    "back": [
+                        18
+                    ],
+                    "seat_surface": [
+                        19
+                    ]
+                },
+                "stand_point": [
+                    [
+                        3.0,
+                        4.0,
+                        0.86
+                    ]
+                ]
+            }
+        },
+        "contact_pairs": [
+            [
+                [
+                    "chair002",
+                    "none",
+                    "none",
+                    "none",
+                    "none"
+                ]
+            ],
+            [
+                [
+                    "chair002",
+                    "seat_surface",
+                    "pelvis",
+                    "contact",
+                    "up"
+                ]
+            ],
+            [
+                [
+                    "chair002",
+                    "seat_surface",
+                    "pelvis",
+                    "contact",
+                    "up"
+                ],
+                [
+                    "chair002",
+                    "back",
+                    "torso",
+                    "contact",
+                    "none"
+                ]
+            ],
+            [
+                [
+                    "chair002",
+                    "none",
+                    "none",
+                    "none",
+                    "none"
+                ]
+            ]
+        ],
+        "init_pos": [
+            3,
+            4
+        ]
+    },
+    "0070": {
+        "scene_id": "0013_00",
+        "rotate": [
+            [
+                0,
+                -0.0,
+                0.0
+            ]
+        ],
+        "scale": 1,
+        "transfer": [
+            0,
+            0,
+            -0.1
+        ],
+        "obj": {
+            "000": {
+                "name": "chair",
+                "id": "1",
+                "part_id": {
+                    "back": [
+                        8
+                    ],
+                    "seat_surface": [
+                        4
+                    ]
+                },
+                "stand_point": [
+                    [
+                        3.5,
+                        4.0,
+                        0.86
+                    ]
+                ]
+            },
+            "001": {
+                "name": "chair",
+                "id": "2",
+                "part_id": {
+                    "back": [
+                        1
+                    ],
+                    "seat_surface": [
+                        9
+                    ]
+                },
+                "stand_point": [
+                    [
+                        3.5,
+                        3.5,
+                        0.86
+                    ]
+                ]
+            },
+            "002": {
+                "name": "chair",
+                "id": "3",
+                "part_id": {
+                    "back": [
+                        2
+                    ],
+                    "seat_surface": [
+                        1
+                    ]
+                },
+                "stand_point": [
+                    [
+                        3.7,
+                        4.7,
+                        0.86
+                    ]
+                ]
+            },
+            "003": {
+                "name": "chair",
+                "id": "0",
+                "part_id": {
+                    "back": [
+                        10
+                    ],
+                    "seat_surface": [
+                        5
+                    ]
+                },
+                "stand_point": [
+                    [
+                        4.0,
+                        5.2,
+                        0.86
+                    ]
+                ]
+            }
+        },
+        "contact_pairs": [
+            [
+                [
+                    "chair002",
+                    "none",
+                    "none",
+                    "none",
+                    "none"
+                ]
+            ],
+            [
+                [
+                    "chair002",
+                    "seat_surface",
+                    "pelvis",
+                    "contact",
+                    "up"
+                ]
+            ],
+            [
+                [
+                    "chair002",
+                    "seat_surface",
+                    "pelvis",
+                    "contact",
+                    "up"
+                ],
+                [
+                    "chair002",
+                    "back",
+                    "torso",
+                    "contact",
+                    "none"
+                ]
+            ],
+            [
+                [
+                    "chair002",
+                    "none",
+                    "none",
+                    "none",
+                    "none"
+                ]
+            ]
+        ],
+        "init_pos": [
+            3.5,
+            4
+        ]
+    },
+    "0072": {
+        "scene_id": "0004_00",
+        "rotate": [
+            [
+                -0.07,
+                -0.2,
+                0.0
+            ]
+        ],
+        "scale": 1,
+        "transfer": [
+            0,
+            0,
+            -0.15
+        ],
+        "obj": {
+            "000": {
+                "name": "chair",
+                "id": "11",
+                "part_id": {
+                    "back": [
+                        4
+                    ],
+                    "seat_surface": [
+                        0
+                    ]
+                },
+                "stand_point": [
+                    [
+                        4.0,
+                        5.0,
+                        0.86
+                    ]
+                ]
+            },
+            "001": {
+                "name": "chair",
+                "id": "10",
+                "part_id": {
+                    "back": [
+                        0
+                    ],
+                    "seat_surface": [
+                        1
+                    ]
+                },
+                "stand_point": [
+                    [
+                        3.5,
+                        4.5,
+                        0.86
+                    ]
+                ]
+            },
+            "002": {
+                "name": "chair",
+                "id": "9",
+                "part_id": {
+                    "back": [
+                        0
+                    ],
+                    "seat_surface": [
+                        1
+                    ]
+                },
+                "stand_point": [
+                    [
+                        4.8,
+                        7.2,
+                        0.86
+                    ]
+                ]
+            },
+            "003": {
+                "name": "chair",
+                "id": "5",
+                "part_id": {
+                    "back": [
+                        18
+                    ],
+                    "seat_surface": [
+                        19
+                    ]
+                },
+                "stand_point": [
+                    [
+                        3.0,
+                        4.0,
+                        0.86
+                    ]
+                ]
+            }
+        },
+        "contact_pairs": [
+            [
+                [
+                    "chair000",
+                    "none",
+                    "none",
+                    "none",
+                    "none"
+                ]
+            ],
+            [
+                [
+                    "chair000",
+                    "seat_surface",
+                    "pelvis",
+                    "contact",
+                    "up"
+                ]
+            ],
+            [
+                [
+                    "chair000",
+                    "seat_surface",
+                    "pelvis",
+                    "contact",
+                    "up"
+                ],
+                [
+                    "chair000",
+                    "back",
+                    "torso",
+                    "contact",
+                    "none"
+                ]
+            ],
+            [
+                [
+                    "chair000",
+                    "none",
+                    "none",
+                    "none",
+                    "none"
+                ]
+            ]
+        ],
+        "init_pos": [
+            3,
+            4
+        ]
+    },
+    "0073": {
+        "scene_id": "0013_00",
+        "rotate": [
+            [
+                0,
+                -0.0,
+                0.0
+            ]
+        ],
+        "scale": 1,
+        "transfer": [
+            0,
+            0,
+            -0.1
+        ],
+        "obj": {
+            "000": {
+                "name": "chair",
+                "id": "1",
+                "part_id": {
+                    "back": [
+                        8
+                    ],
+                    "seat_surface": [
+                        4
+                    ]
+                },
+                "stand_point": [
+                    [
+                        3.5,
+                        4.0,
+                        0.86
+                    ]
+                ]
+            },
+            "001": {
+                "name": "chair",
+                "id": "2",
+                "part_id": {
+                    "back": [
+                        1
+                    ],
+                    "seat_surface": [
+                        9
+                    ]
+                },
+                "stand_point": [
+                    [
+                        3.5,
+                        3.5,
+                        0.86
+                    ]
+                ]
+            },
+            "002": {
+                "name": "chair",
+                "id": "3",
+                "part_id": {
+                    "back": [
+                        2
+                    ],
+                    "seat_surface": [
+                        1
+                    ]
+                },
+                "stand_point": [
+                    [
+                        3.7,
+                        4.7,
+                        0.86
+                    ]
+                ]
+            },
+            "003": {
+                "name": "chair",
+                "id": "0",
+                "part_id": {
+                    "back": [
+                        10
+                    ],
+                    "seat_surface": [
+                        5
+                    ]
+                },
+                "stand_point": [
+                    [
+                        4.0,
+                        5.2,
+                        0.86
+                    ]
+                ]
+            }
+        },
+        "contact_pairs": [
+            [
+                [
+                    "chair003",
+                    "none",
+                    "none",
+                    "none",
+                    "none"
+                ]
+            ],
+            [
+                [
+                    "chair003",
+                    "seat_surface",
+                    "pelvis",
+                    "contact",
+                    "up"
+                ]
+            ],
+            [
+                [
+                    "chair003",
+                    "seat_surface",
+                    "pelvis",
+                    "contact",
+                    "up"
+                ],
+                [
+                    "chair003",
+                    "back",
+                    "torso",
+                    "contact",
+                    "none"
+                ]
+            ],
+            [
+                [
+                    "chair003",
+                    "none",
+                    "none",
+                    "none",
+                    "none"
+                ]
+            ]
+        ],
+        "init_pos": [
+            3.5,
+            4
+        ]
+    },
+    "0075": {
+        "scene_id": "0025_00",
+        "rotate": [
+            [
+                0,
+                0,
+                -0.5
+            ]
+        ],
+        "scale": 1,
+        "transfer": [
+            0,
+            0,
+            -0.1
+        ],
+        "obj": {
+            "000": {
+                "name": "couch",
+                "id": "3",
+                "part_id": {
+                    "back": [
+                        1
+                    ],
+                    "seat_surface": [
+                        11
+                    ],
+                    "right_arm": [
+                        0
+                    ]
+                },
+                "stand_point": [
+                    [
+                        3.0,
+                        2.2,
+                        0.86
+                    ]
+                ]
+            },
+            "001": {
+                "name": "couch",
+                "id": "4",
+                "part_id": {
+                    "back": [
+                        1
+                    ],
+                    "seat_surface": [
+                        0
+                    ],
+                    "left_arm": [
+                        5
+                    ]
+                },
+                "stand_point": [
+                    [
+                        4,
+                        3,
+                        0.86
+                    ]
+                ]
+            }
+        },
+        "contact_pairs": [
+            [
+                [
+                    "couch001",
+                    "none",
+                    "none",
+                    "none",
+                    "none"
+                ]
+            ],
+            [
+                [
+                    "couch001",
+                    "seat_surface",
+                    "pelvis",
+                    "contact",
+                    "up"
+                ]
+            ],
+            [
+                [
+                    "couch001",
+                    "seat_surface",
+                    "pelvis",
+                    "contact",
+                    "up"
+                ],
+                [
+                    "couch001",
+                    "back",
+                    "torso",
+                    "contact",
+                    "none"
+                ]
+            ]
+        ],
+        "init_pos": [
+            4,
+            3
+        ]
+    },
+    "0080": {
+        "scene_id": "0004_00",
+        "rotate": [
+            [
+                -0.07,
+                -0.2,
+                0.0
+            ]
+        ],
+        "scale": 1,
+        "transfer": [
+            0,
+            0,
+            -0.15
+        ],
+        "obj": {
+            "000": {
+                "name": "chair",
+                "id": "11",
+                "part_id": {
+                    "back": [
+                        4
+                    ],
+                    "seat_surface": [
+                        0
+                    ]
+                },
+                "stand_point": [
+                    [
+                        4.0,
+                        5.0,
+                        0.86
+                    ]
+                ]
+            },
+            "001": {
+                "name": "chair",
+                "id": "10",
+                "part_id": {
+                    "back": [
+                        0
+                    ],
+                    "seat_surface": [
+                        1
+                    ]
+                },
+                "stand_point": [
+                    [
+                        3.5,
+                        4.5,
+                        0.86
+                    ]
+                ]
+            },
+            "002": {
+                "name": "chair",
+                "id": "9",
+                "part_id": {
+                    "back": [
+                        0
+                    ],
+                    "seat_surface": [
+                        1
+                    ]
+                },
+                "stand_point": [
+                    [
+                        4.8,
+                        7.2,
+                        0.86
+                    ]
+                ]
+            },
+            "003": {
+                "name": "chair",
+                "id": "5",
+                "part_id": {
+                    "back": [
+                        18
+                    ],
+                    "seat_surface": [
+                        19
+                    ]
+                },
+                "stand_point": [
+                    [
+                        3.0,
+                        4.0,
+                        0.86
+                    ]
+                ]
+            }
+        },
+        "contact_pairs": [
+            [
+                [
+                    "chair003",
+                    "none",
+                    "none",
+                    "none",
+                    "none"
+                ]
+            ],
+            [
+                [
+                    "chair003",
+                    "seat_surface",
+                    "pelvis",
+                    "contact",
+                    "up"
+                ]
+            ],
+            [
+                [
+                    "chair003",
+                    "seat_surface",
+                    "pelvis",
+                    "contact",
+                    "up"
+                ],
+                [
+                    "chair003",
+                    "back",
+                    "torso",
+                    "not contact",
+                    "none"
+                ]
+            ],
+            [
+                [
+                    "chair003",
+                    "none",
+                    "none",
+                    "none",
+                    "none"
+                ]
+            ]
+        ],
+        "init_pos": [
+            3,
+            4
+        ]
+    },
+    "0083": {
+        "scene_id": "0013_00",
+        "rotate": [
+            [
+                0,
+                -0.0,
+                0.0
+            ]
+        ],
+        "scale": 1,
+        "transfer": [
+            0,
+            0,
+            -0.1
+        ],
+        "obj": {
+            "000": {
+                "name": "chair",
+                "id": "1",
+                "part_id": {
+                    "back": [
+                        8
+                    ],
+                    "seat_surface": [
+                        4
+                    ]
+                },
+                "stand_point": [
+                    [
+                        3.5,
+                        4.0,
+                        0.86
+                    ]
+                ]
+            },
+            "001": {
+                "name": "chair",
+                "id": "2",
+                "part_id": {
+                    "back": [
+                        1
+                    ],
+                    "seat_surface": [
+                        9
+                    ]
+                },
+                "stand_point": [
+                    [
+                        3.5,
+                        3.5,
+                        0.86
+                    ]
+                ]
+            },
+            "002": {
+                "name": "chair",
+                "id": "3",
+                "part_id": {
+                    "back": [
+                        2
+                    ],
+                    "seat_surface": [
+                        1
+                    ]
+                },
+                "stand_point": [
+                    [
+                        3.7,
+                        4.7,
+                        0.86
+                    ]
+                ]
+            },
+            "003": {
+                "name": "chair",
+                "id": "0",
+                "part_id": {
+                    "back": [
+                        10
+                    ],
+                    "seat_surface": [
+                        5
+                    ]
+                },
+                "stand_point": [
+                    [
+                        4.0,
+                        5.2,
+                        0.86
+                    ]
+                ]
+            }
+        },
+        "contact_pairs": [
+            [
+                [
+                    "chair001",
+                    "none",
+                    "none",
+                    "none",
+                    "none"
+                ]
+            ],
+            [
+                [
+                    "chair001",
+                    "seat_surface",
+                    "pelvis",
+                    "contact",
+                    "up"
+                ]
+            ],
+            [
+                [
+                    "chair001",
+                    "seat_surface",
+                    "pelvis",
+                    "contact",
+                    "up"
+                ],
+                [
+                    "chair001",
+                    "back",
+                    "torso",
+                    "contact",
+                    "none"
+                ]
+            ],
+            [
+                [
+                    "chair001",
+                    "none",
+                    "none",
+                    "none",
+                    "none"
+                ]
+            ]
+        ],
+        "init_pos": [
+            3.5,
+            4
+        ]
+    },
+    "0087": {
+        "scene_id": "0025_00",
+        "rotate": [
+            [
+                0,
+                0,
+                -0.5
+            ]
+        ],
+        "scale": 1,
+        "transfer": [
+            0,
+            0,
+            -0.1
+        ],
+        "obj": {
+            "000": {
+                "name": "couch",
+                "id": "3",
+                "part_id": {
+                    "back": [
+                        1
+                    ],
+                    "seat_surface": [
+                        11
+                    ],
+                    "right_arm": [
+                        0
+                    ]
+                },
+                "stand_point": [
+                    [
+                        3.0,
+                        2.2,
+                        0.86
+                    ]
+                ]
+            },
+            "001": {
+                "name": "couch",
+                "id": "4",
+                "part_id": {
+                    "back": [
+                        1
+                    ],
+                    "seat_surface": [
+                        0
+                    ],
+                    "left_arm": [
+                        5
+                    ]
+                },
+                "stand_point": [
+                    [
+                        4,
+                        3,
+                        0.86
+                    ]
+                ]
+            }
+        },
+        "contact_pairs": [
+            [
+                [
+                    "couch001",
+                    "none",
+                    "none",
+                    "none",
+                    "none"
+                ]
+            ],
+            [
+                [
+                    "couch001",
+                    "seat_surface",
+                    "pelvis",
+                    "contact",
+                    "up"
+                ]
+            ],
+            [
+                [
+                    "couch001",
+                    "seat_surface",
+                    "pelvis",
+                    "contact",
+                    "up"
+                ],
+                [
+                    "couch001",
+                    "left_arm",
+                    "left_hand",
+                    "contact",
+                    "none"
+                ]
+            ]
+        ],
+        "init_pos": [
+            4,
+            3
+        ]
+    },
+    "0088": {
+        "scene_id": "0030_00",
+        "rotate": [
+            [
+                0,
+                0,
+                -0.5
+            ]
+        ],
+        "scale": 1,
+        "transfer": [
+            0,
+            0,
+            -0.1
+        ],
+        "obj": {
+            "000": {
+                "name": "chair",
+                "id": "3",
+                "part_id": {
+                    "back": [
+                        3
+                    ],
+                    "seat_surface": [
+                        0
+                    ]
+                },
+                "stand_point": [
+                    [
+                        2.1,
+                        1.45,
+                        0.86
+                    ]
+                ]
+            },
+            "001": {
+                "name": "bookshelf",
+                "id": "20",
+                "part_id": {
+                    "book": [
+                        12
+                    ]
+                },
+                "stand_point": [
+                    [
+                        1.5,
+                        1,
+                        0.86
+                    ]
+                ]
+            }
+        },
+        "contact_pairs": [
+            [
+                [
+                    "chair000",
+                    "none",
+                    "none",
+                    "none",
+                    "none"
+                ]
+            ],
+            [
+                [
+                    "chair000",
+                    "seat_surface",
+                    "pelvis",
+                    "contact",
+                    "up"
+                ]
+            ],
+            [
+                [
+                    "chair000",
+                    "seat_surface",
+                    "pelvis",
+                    "contact",
+                    "up"
+                ],
+                [
+                    "chair000",
+                    "back",
+                    "torso",
+                    "contact",
+                    "none"
+                ]
+            ]
+        ],
+        "init_pos": [
+            3.5,
+            2
+        ]
+    },
+    "0092": {
+        "scene_id": "0025_00",
+        "rotate": [
+            [
+                0,
+                0,
+                -0.5
+            ]
+        ],
+        "scale": 1,
+        "transfer": [
+            0,
+            0,
+            -0.1
+        ],
+        "obj": {
+            "000": {
+                "name": "couch",
+                "id": "3",
+                "part_id": {
+                    "back": [
+                        1
+                    ],
+                    "seat_surface": [
+                        11
+                    ],
+                    "right_arm": [
+                        0
+                    ]
+                },
+                "stand_point": [
+                    [
+                        3.0,
+                        2.2,
+                        0.86
+                    ]
+                ]
+            },
+            "001": {
+                "name": "couch",
+                "id": "4",
+                "part_id": {
+                    "back": [
+                        1
+                    ],
+                    "seat_surface": [
+                        0
+                    ],
+                    "left_arm": [
+                        5
+                    ]
+                },
+                "stand_point": [
+                    [
+                        4,
+                        3,
+                        0.86
+                    ]
+                ]
+            }
+        },
+        "contact_pairs": [
+            [
+                [
+                    "couch000",
+                    "none",
+                    "none",
+                    "none",
+                    "none"
+                ]
+            ],
+            [
+                [
+                    "couch000",
+                    "seat_surface",
+                    "pelvis",
+                    "contact",
+                    "up"
+                ]
+            ],
+            [
+                [
+                    "couch000",
+                    "seat_surface",
+                    "pelvis",
+                    "contact",
+                    "up"
+                ],
+                [
+                    "couch000",
+                    "right_arm",
+                    "right_hand",
+                    "contact",
+                    "none"
+                ]
+            ]
+        ],
+        "init_pos": [
+            4,
+            3
+        ]
+    },
+    "0093": {
+        "scene_id": "0004_00",
+        "rotate": [
+            [
+                -0.07,
+                -0.2,
+                0.0
+            ]
+        ],
+        "scale": 1,
+        "transfer": [
+            0,
+            0,
+            -0.15
+        ],
+        "obj": {
+            "000": {
+                "name": "chair",
+                "id": "11",
+                "part_id": {
+                    "back": [
+                        4
+                    ],
+                    "seat_surface": [
+                        0
+                    ]
+                },
+                "stand_point": [
+                    [
+                        4.0,
+                        5.0,
+                        0.86
+                    ]
+                ]
+            },
+            "001": {
+                "name": "chair",
+                "id": "10",
+                "part_id": {
+                    "back": [
+                        0
+                    ],
+                    "seat_surface": [
+                        1
+                    ]
+                },
+                "stand_point": [
+                    [
+                        3.5,
+                        4.5,
+                        0.86
+                    ]
+                ]
+            },
+            "002": {
+                "name": "chair",
+                "id": "9",
+                "part_id": {
+                    "back": [
+                        0
+                    ],
+                    "seat_surface": [
+                        1
+                    ]
+                },
+                "stand_point": [
+                    [
+                        4.8,
+                        7.2,
+                        0.86
+                    ]
+                ]
+            },
+            "003": {
+                "name": "chair",
+                "id": "5",
+                "part_id": {
+                    "back": [
+                        18
+                    ],
+                    "seat_surface": [
+                        19
+                    ]
+                },
+                "stand_point": [
+                    [
+                        3.0,
+                        4.0,
+                        0.86
+                    ]
+                ]
+            }
+        },
+        "contact_pairs": [
+            [
+                [
+                    "chair000",
+                    "none",
+                    "none",
+                    "none",
+                    "none"
+                ]
+            ],
+            [
+                [
+                    "chair000",
+                    "seat_surface",
+                    "pelvis",
+                    "contact",
+                    "up"
+                ]
+            ],
+            [
+                [
+                    "chair000",
+                    "seat_surface",
+                    "pelvis",
+                    "contact",
+                    "up"
+                ],
+                [
+                    "chair000",
+                    "back",
+                    "torso",
+                    "not contact",
+                    "none"
+                ]
+            ],
+            [
+                [
+                    "chair000",
+                    "none",
+                    "none",
+                    "none",
+                    "none"
+                ]
+            ]
+        ],
+        "init_pos": [
+            3,
+            4
+        ]
+    }
+}

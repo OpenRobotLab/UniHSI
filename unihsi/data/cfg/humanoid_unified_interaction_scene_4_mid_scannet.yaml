@@ -2,7 +2,7 @@
 env: 
   numEnvs: 128
   envSpacing: 5
-  numScenes: 16
+  numScenes: 4
   episodeLength: 300
   isFlagrun: False
   enableDebugVis: False
@@ -52,3 +52,5 @@ sim:
   flex:
     num_inner_iterations: 10
     warm_start: 0.25
+
+output_dir: output/test_scannet_mid.log

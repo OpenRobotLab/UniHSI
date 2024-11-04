@@ -90,3 +90,5 @@ params:
     task_reward_w: 0.5
     disc_reward_w: 0.5
 
+    player:
+      games_num: 200000

@@ -1,3 +1,8 @@
+# This version hard-codes standpoint and contact direction
+
+import wandb
+
+
 import torch
 
 from isaacgym import gymapi, gymtorch
@@ -65,6 +70,9 @@ def get_height_map(points: np.ndarray, HEIGHT_MAP_DIM: int=16):
     minx, miny = points[:, 0].min(), points[:, 1].min()
     maxx, maxy = points[:, 0].max(), points[:, 1].max()
 
+    height_mask = points[:, 2] < 1.5
+    points[~height_mask, 2] = 0.0
+
     interval_x = (maxx-minx)/HEIGHT_MAP_DIM
     interval_y = (maxy-miny)/HEIGHT_MAP_DIM
     voxel_idx_x = (points[:, 0]-minx) // interval_x
@@ -87,48 +95,42 @@ def get_height_map(points: np.ndarray, HEIGHT_MAP_DIM: int=16):
 
     height_pcd = np.concatenate([pos2d.reshape(-1,2),height_map2d.reshape(-1,1)], axis=-1)
 
+    height_pcd[height_pcd[:,2]<0,2] = 0
+
     return height_pcd
 
-def VaryPoint(data, axis, degree):
-    xyzArray = {
-        'X': np.array([[1, 0, 0],
-                  [0, np.cos(np.radians(degree)), -np.sin(np.radians(degree))],
-                  [0, np.sin(np.radians(degree)), np.cos(np.radians(degree))]]),
-        'Y': np.array([[np.cos(np.radians(degree)), 0, np.sin(np.radians(degree))],
-                  [0, 1, 0],
-                  [-np.sin(np.radians(degree)), 0, np.cos(np.radians(degree))]]),
-        'Z': np.array([[np.cos(np.radians(degree)), -np.sin(np.radians(degree)), 0],
-                  [np.sin(np.radians(degree)), np.cos(np.radians(degree)), 0],
-                  [0, 0, 1]])}
-    newData = np.dot(data, xyzArray[axis])
-    return newData
-
-class UniHSI_PartNet_Test(humanoid_amp_task.HumanoidAMPTask):
+class UniHSI_ScanNet_Test(humanoid_amp_task.HumanoidAMPTask):
 
     def __init__(self, cfg, sim_params, physics_engine, device_type, device_id, headless):
+
+        # load multi-scene training spacing setting
         num_scenes = cfg["env"]["numScenes"] 
         self.num_scenes_col = num_scenes
         self.num_scenes_row = num_scenes
         self.env_array = torch.arange(0, cfg["env"]["numEnvs"], device=device_type, dtype=torch.float)
         self.spacing = cfg["env"]["envSpacing"]
+
+        # load sceneplan
         sceneplan_path = cfg['objFile']
         with open(sceneplan_path) as f:
             self.sceneplan = json.load(f)
-        strike_body_names = cfg["env"]["strikeBodyNames"]
         self.plan_items = self.sceneplan
 
-
-        self.joint_num = len(strike_body_names)
+        # heightmap parameter
         self.local_scale = 9
         self.local_interval = 0.2
 
-        self.max_step_pool_number = 30
-
+        # load joint information
+        strike_body_names = cfg["env"]["strikeBodyNames"]
+        self.joint_num = len(strike_body_names)
         self.joint_name = ["pelvis", "left_hip", "left_knee", "left_foot", "right_hip", "right_knee", "right_foot", "torso", 
             "head", "left_shoulder", "left_elbow", "left_hand", "right_shoulder", "right_elbow", "right_hand"]
         self.joint_mapping = {"pelvis":0, "left_hip":1, "left_knee":2, "left_foot":3, "right_hip":4, "right_knee":5, "right_foot":6, "torso":7, 
             "head":8, "left_shoulder":9, "left_elbow":10, "left_hand":11, "right_shoulder":12, "right_elbow":13, "right_hand":14}
         
+        # CoC buffer_length
+        self.max_step_pool_number = 30
+
         super().__init__(cfg=cfg,
                          sim_params=sim_params,
                          physics_engine=physics_engine,
@@ -136,39 +138,32 @@ class UniHSI_PartNet_Test(humanoid_amp_task.HumanoidAMPTask):
                          device_id=device_id,
                          headless=headless)
         
-        self._tar_dist_min = 0.5
-        self._tar_dist_max = 10.0
-        self._near_dist = 1.5
-        self._near_prob = 0.5
 
         self._prev_root_pos = torch.zeros([self.num_envs, 3], device=self.device, dtype=torch.float)
-        
         self._strike_body_ids = self._build_strike_body_ids_tensor(self.envs[0], self.humanoid_handles[0], strike_body_names)
 
+        # CoC buffers
         self.contact_type = torch.zeros([self.num_envs, self.joint_num], device=self.device, dtype=torch.bool)
         self.contact_valid = torch.zeros([self.num_envs, self.joint_num], device=self.device, dtype=torch.bool)
-
         self.joint_diff_buff = torch.ones([self.num_envs, self.joint_num], device=self.device, dtype=torch.float)
         self.location_diff_buf = torch.ones([self.num_envs], device=self.device, dtype=torch.float)
         self.joint_idx_buff = torch.ones([self.num_envs, self.joint_num], device=self.device, dtype=torch.long)
         self.tar_dir = torch.zeros([self.num_envs, 3], device=self.device, dtype=torch.float)
-    
+        self.step_mode = torch.zeros([self.num_envs], device=self.device, dtype=torch.long)
         self.envs_idx = torch.arange(self.num_envs).to(self.device)
 
+        # position offsets to match the actual positions of joints
         self.pelvis2torso = torch.tensor([0,0,0.236151]).to(self.device)[None].repeat(self.num_envs, 1)
         self.pelvis2torso[:, 2] += 0.15
         self.torso2head = torch.tensor([0, 0, 0.223894]).to(self.device)[None].repeat(self.num_envs, 1)
         self.torso2head[:, 2] += 0.15
         self.new_rigid_body_pos = torch.ones([self.num_envs, 15, 3], device=self.device, dtype=torch.float)
 
-        self.step_mode = torch.zeros([self.num_envs], device=self.device, dtype=torch.long)
-        self.change_obj = torch.zeros([self.num_envs], device=self.device, dtype=torch.bool)
-        self.stand_point_choice = torch.zeros([self.num_envs], device=self.device, dtype=torch.long)
-
+        # reset conditions
         self.big_force = torch.zeros([self.num_envs], device=self.device, dtype=torch.bool)
-        
         self.still = torch.zeros([self.num_envs], device=self.device, dtype=torch.bool)
         self.still_buf = torch.zeros([self.num_envs], device=self.device, dtype=torch.float)
+
 
         self.success_count = 0
         self.fail_count = -self.num_envs
@@ -185,8 +180,10 @@ class UniHSI_PartNet_Test(humanoid_amp_task.HumanoidAMPTask):
         logging.basicConfig(filename=output_dir, level=logging.INFO)
         self.logger = logging.getLogger(__name__)
         
+    
         return
 
+    # load ground plane and scene meshes
     def _create_ground_plane(self):
         self._create_mesh_ground()
         plane_params = gymapi.PlaneParams()
@@ -197,10 +194,11 @@ class UniHSI_PartNet_Test(humanoid_amp_task.HumanoidAMPTask):
         self.gym.add_ground(self.sim, plane_params)
         return
 
+    # load scene meshes
     def _create_mesh_ground(self):
         self.plan_number = len(self.sceneplan)
-        min_mesh_dict = self._load_mesh()
-        pcd_list = self._load_pcd(min_mesh_dict)
+        self._load_mesh()
+        pcd_list = self.pcds
 
         self._get_pcd_parts(pcd_list)
 
@@ -212,6 +210,7 @@ class UniHSI_PartNet_Test(humanoid_amp_task.HumanoidAMPTask):
         self.mesh_pos = torch.from_numpy(mesh_grid).to(self.device) * self.local_interval
         self.humanoid_in_mesh = torch.tensor([self.local_interval*(self.local_scale-1)/4, self.local_interval*(self.local_scale-1)/2, 0]).to(self.device)
 
+    # translate CoC into CoC buffers of each plan
     def process_contact(self, label_dict, pcd, obj, steps, step_number, plan_id):
 
         direction_mapping = {
@@ -231,16 +230,16 @@ class UniHSI_PartNet_Test(humanoid_amp_task.HumanoidAMPTask):
             contact_direction_step = np.zeros((15,3))
 
             for pair in step:
-                obj_id = pair[0][-3:]
-                label = label_dict[obj_id]['label']
-                label_mapping = label_dict[obj_id]['label_mapping']
-                if 'stand_point' in obj[obj_id].keys():
-                    stand_point = obj[obj_id]['stand_point']
-                else:
-                    stand_point = [[0,0,0],[0,0,0],[0,0,0],[0,0,0]]
-                obj_pcd = pcd[int(obj_id)*10000:(int(obj_id)+1)*10000]
+                obj_name = pair[0]
+                label = label_dict[obj_name]['label']
+                label_mapping = label_dict[obj_name]['label_mapping']
+                try:
+                    stand_point = obj[obj_name[-3:]]['stand_point']
+                except:
+                    stand_point = [[0,0,0]]
+
                 if pair[1] != 'none' and pair[1] not in self.joint_name:
-                    part_pcd = self._get_obj_parts(pair[0], [pair[1]], label_mapping, label, obj_pcd, stand_point)
+                    part_pcd = self._get_obj_parts([pair[1]], label_mapping, label, pcd, stand_point)
                     joint_number = self.joint_mapping[pair[2]]
                     self.obj_pcd_buffer[plan_id, step_idx, joint_number] = part_pcd[0]
                     contact_type_step[joint_number] = 1 if pair[3] == 'contact' else 0
@@ -252,11 +251,11 @@ class UniHSI_PartNet_Test(humanoid_amp_task.HumanoidAMPTask):
                     joint_pairs[joint_number] = target_joint_number
                     joint_pairs_valid[joint_number] = 1
                     contact_direction_step[joint_number] = direction_mapping[pair[4]]
-            
+
             self.scene_stand_point[plan_id, step_idx] = torch.tensor(stand_point).float()
             self.contact_type_step[plan_id, step_idx] = torch.tensor(contact_type_step)
             self.contact_valid_step[plan_id, step_idx] = torch.tensor(contact_valid_step)
-            self.contact_direction_step[plan_id, step_idx] = torch.tensor(contact_direction_step) 
+            self.contact_direction_step[plan_id, step_idx] = torch.tensor(contact_direction_step)
             self.joint_pairs[plan_id, step_idx] = torch.tensor(joint_pairs)
             self.joint_pairs_valid[plan_id, step_idx] = torch.tensor(joint_pairs_valid)
 
@@ -265,69 +264,31 @@ class UniHSI_PartNet_Test(humanoid_amp_task.HumanoidAMPTask):
         mesh_vertices_list = []
         mesh_triangles_list = []
 
-        min_mesh_dict = dict()
-        for plans in self.plan_items:
-            plan = self.plan_items[plans]
-            objs = plan['obj']
-            min_mesh_dict[plans] = dict()
+        self.pcds = dict()
+        self.init_pos = []
+        for plan_id in self.plan_items:
+            plan = self.plan_items[plan_id]
+            scene_id = plan['scene_id']
 
-            l = 0
-            pn = 0
-            mesh_vertices = np.zeros([0, 3]).astype(np.float32)
-            mesh_triangles = np.zeros([0, 3]).astype(np.uint32)
-            for obj_id in objs:
-                obj = objs[obj_id]
-                pid = obj['id']
-                mesh = o3d.io.read_triangle_mesh('data/partnet/'+pid+'/models/model_normalized.obj')
-                for r in obj['rotate']:
-                    R = mesh.get_rotation_matrix_from_xyz(r)
-                    mesh.rotate(R, center=(0, 0, 0))
-                mesh.scale(obj['scale'], center=mesh.get_center())
-                mesh_vertices_single = np.asarray(mesh.vertices).astype(np.float32())
-                mesh.translate((0,0,-mesh_vertices_single[:, 2].min()))
-                mesh.translate(obj['transfer']) #  not collision with init human
-                # mesh.translate(obj['multi_obj_offset'])
-                mesh_vertices_single = np.asarray(mesh.vertices).astype(np.float32())
-                mesh_triangles_single = np.asarray(mesh.triangles).astype(np.uint32)
-
-                min_x_mesh, min_y_mesh, min_z_mesh = mesh_vertices_single[:,0].min(), mesh_vertices_single[:,1].min(), mesh_vertices_single[:,2].min()
-                min_mesh_dict[plans][obj_id] = [min_x_mesh, min_y_mesh, min_z_mesh]
-
-                mesh_vertices = np.concatenate([mesh_vertices, mesh_vertices_single], axis=0)
-                mesh_triangles = np.concatenate([mesh_triangles, mesh_triangles_single], axis=0)
-                mesh_triangles[l:] += pn
-                l = mesh_triangles.shape[0]
-                pn = mesh_vertices.shape[0]
-
+            mesh = o3d.io.read_triangle_mesh('data/scannet/scene'+scene_id+'_vh_clean_2.ply')
+            for r in plan['rotate']:
+                R = mesh.get_rotation_matrix_from_xyz(r)
+                mesh.rotate(R, center=(0, 0, 0))
+            mesh.scale(plan['scale'], center=mesh.get_center())
+            mesh_vertices = np.asarray(mesh.vertices).astype(np.float32())
+            mesh.translate((0,0,-mesh_vertices[:, 2].min()))
+            mesh.translate(plan['transfer']) #  not collision with init human
+            mesh_vertices = np.asarray(mesh.vertices).astype(np.float32())
+            mesh_triangles = np.asarray(mesh.triangles).astype(np.uint32)
             mesh_vertices_list.append(mesh_vertices)
             mesh_triangles_list.append(mesh_triangles)
 
+            self.pcds[plan_id] = mesh_vertices
+            self.init_pos.append(plan['init_pos'])
         
-
-        obj_idx = np.random.randint(0, self.plan_number, (self.num_scenes_row, self.num_scenes_col))
-        obj_rotate = np.random.rand(self.num_scenes_row, self.num_scenes_col) * 0.0
-        obj_rotate_matrix = np.array([[np.cos(np.radians(obj_rotate)), -np.sin(np.radians(obj_rotate)), obj_rotate*0],
-                                    [np.sin(np.radians(obj_rotate)), np.cos(np.radians(obj_rotate)), obj_rotate*0],
-                                    [obj_rotate*0, obj_rotate*0, obj_rotate*0+1]])
-
-        self.obj_idx = torch.from_numpy(obj_idx).to(self.device)
-        self.obj_rotate_matrix = torch.from_numpy(obj_rotate_matrix).to(self.device)
-
-        dist_max = 2
-        dist_min = 1
-        rand_dist_x = (dist_max - dist_min) * np.random.rand(self.num_scenes_row, self.num_scenes_col) + dist_min
-        rand_dist_y = (dist_max - dist_min) * np.random.rand(self.num_scenes_row, self.num_scenes_col) + dist_min
-        rand_dist_x[0] = 0
-        rand_dist_y[0] = 0
-        self.rand_dist_x = torch.from_numpy(rand_dist_x).to(self.device)
-        self.rand_dist_y = torch.from_numpy(rand_dist_y).to(self.device)
-        rand_dist_z = np.random.rand(self.num_scenes_row, self.num_scenes_col) * 1.2 - 0.6
-        change_height = 0
-        rand_dist_z = rand_dist_z * change_height
-        self.rand_dist_z = torch.from_numpy(rand_dist_z).to(self.device)
-
-
-        scene_idx = np.random.randint(0, self.plan_number, (self.num_scenes_row, self.num_scenes_col))
+        self.init_pos = torch.tensor(self.init_pos).to(self.device)
+        
+        scene_idx = np.random.randint(0, self.plan_number, (self.num_scenes_row, self.num_scenes_col))        
         self.scene_idx = torch.from_numpy(scene_idx).to(self.device)
 
         for i in range(self.num_scenes_row):
@@ -335,78 +296,19 @@ class UniHSI_PartNet_Test(humanoid_amp_task.HumanoidAMPTask):
                 mesh_vertices = mesh_vertices_list[self.scene_idx[i,j]]
                 mesh_triangles = mesh_triangles_list[self.scene_idx[i,j]]
                 mesh_vertices_offset = mesh_vertices.copy()
-                mesh_vertices_offset = VaryPoint(mesh_vertices_offset, 'Z', obj_rotate[i,j]).astype(np.float32)
-                mesh_vertices_offset[:, 0] += self.spacing *2 * i + rand_dist_x[i, j]
-                mesh_vertices_offset[:, 1] += self.spacing *2 * j + rand_dist_y[i, j]
-                mesh_vertices_offset[:, 2] += rand_dist_z[i, j]
-
+                mesh_vertices_offset[:, 0] += self.spacing * 2 * i
+                mesh_vertices_offset[:, 1] += self.spacing * 2 * j
                 tm_params = gymapi.TriangleMeshParams()
-                tm_params.nb_vertices = mesh_vertices_offset.shape[0]
+                tm_params.nb_vertices = mesh_vertices.shape[0]
                 tm_params.nb_triangles = mesh_triangles.shape[0]
                 self.gym.add_triangle_mesh(self.sim, mesh_vertices_offset.flatten(order='C'),
                                         mesh_triangles.flatten(order='C'),
                                         tm_params)
         
-        return min_mesh_dict
+        return
     
-    def _load_pcd(self, min_mesh_dict):
-
-        trans_mat_path = 'data/partnet/chair_table_storagefurniture_bed_shapenetv1_to_partnet_alignment.json'
-        with open(trans_mat_path, 'r') as fcc_file:
-            trans_mat = fcc_file.read()
-        trans_mat = json.loads(trans_mat)
-
-        pcds = dict()
-        for plans in self.plan_items:
-            plan = self.plan_items[plans]
-            objs = plan['obj']
-
-            pcd_multi = []
-            for obj_id in objs:
-                obj = objs[obj_id]
-                pid = obj['id']
-                pcd = o3d.io.read_point_cloud("data/partnet/"+pid+"/point_sample/sample-points-all-pts-label-10000.ply")
-
-                if pid == '11570' or pid == "11873" or pid == "4376" or pid == "5861":
-                    pcd.scale(0.5, center=pcd.get_center())
-                else:
-                    matrix = np.array(trans_mat[pid]['transmat']).reshape(4,4)
-                    tmp = matrix[0].copy()
-                    matrix[0] = matrix[2]
-                    matrix[2] = tmp
-                    matrix = np.linalg.inv(matrix)
-                    pcd.transform(matrix)
-
-                for r in obj['rotate']:
-                    R = pcd.get_rotation_matrix_from_xyz(r)
-                    pcd.rotate(R, center=(0, 0, 0))
-                pcd.scale(obj['scale'], center=pcd.get_center())
-
-                if pid == '11570':
-                    R = pcd.get_rotation_matrix_from_xyz((0, 0, -np.pi))
-                    pcd.rotate(R, center=(0, 0, 0))
-                
-
-                pcd = np.asarray(pcd.points).astype(np.float32())
-
-                max_y = pcd[:, 1].max()
-                pcd[:, 1] = max_y - pcd[:, 1] # flip
-
-                min_x_pcd, min_y_pcd, min_z_pcd = pcd[:,0].min(), pcd[:,1].min(), pcd[:,2].min()
-                min_x_mesh, min_y_mesh, min_z_mesh = min_mesh_dict[plans][obj_id]
-                pcd[:,0] += min_x_mesh-min_x_pcd 
-                pcd[:,1] += min_y_mesh-min_y_pcd 
-                pcd[:,2] += min_z_mesh-min_z_pcd
-                pcd_multi.append(pcd)
-            pcd_multi = np.concatenate(pcd_multi, axis=0)
-
-            pcds[plans] = pcd_multi
-        
-        return pcds
-
+    # translate CoC into CoC buffers
     def _get_pcd_parts(self, pcd_list):
-        # self.valid_joints_mask = torch.zeros([self.obj_number, 2, self.joint_num], dtype=bool, device=self.device) # hard code
-
         self.height_map = []
         self.obj_pcd_buffer = torch.zeros([self.plan_number, self.max_step_pool_number, 15, 200, 3])
         self.contact_type_step = torch.zeros([self.plan_number, self.max_step_pool_number, 15])
@@ -414,30 +316,31 @@ class UniHSI_PartNet_Test(humanoid_amp_task.HumanoidAMPTask):
         self.contact_direction_step = torch.zeros([self.plan_number, self.max_step_pool_number, 15, 3])
         self.joint_pairs = torch.zeros([self.plan_number, self.max_step_pool_number, 15])
         self.joint_pairs_valid = torch.zeros([self.plan_number, self.max_step_pool_number, 15])        
-        self.scene_stand_point = torch.zeros([self.plan_number, self.max_step_pool_number, 4, 3])        
+        self.scene_stand_point = torch.zeros([self.plan_number, self.max_step_pool_number, 3])        
         self.max_steps = torch.zeros(self.plan_number).int()
         self.contact_pairs = []
 
         for idx, plan_id in enumerate(self.plan_items):
-            obj = self.plan_items[plan_id]['obj']
+            objs = self.plan_items[plan_id]['obj']
+            scene_id = self.plan_items[plan_id]['scene_id']
             contact_pairs = self.plan_items[plan_id]['contact_pairs']
             pcd = pcd_list[plan_id]
             step_number = len(contact_pairs)
 
             label_dict = dict()
-            for obj_item in obj:
-                obj_id = obj[obj_item]['id']
-                label, label_mapping = self._get_part_labels(obj_id)
-                label_dict[obj_item] = {'label': label, 'label_mapping': label_mapping}
+            for obj_item in objs:
+                obj_id = objs[obj_item]['id']
+                part_ids = objs[obj_item]['part_id']
+                item_name = objs[obj_item]['name']+obj_item
+                label, label_mapping = self._get_part_labels(scene_id, obj_id, part_ids)
+                label_dict[item_name] = {'label': label, 'label_mapping': label_mapping}
 
-            self.process_contact(label_dict, pcd, obj, contact_pairs, step_number, idx)
-            heigh_pcd = get_height_map(pcd, HEIGHT_MAP_DIM=20)
+            self.process_contact(label_dict, pcd, objs, contact_pairs, step_number, idx)
+            heigh_pcd = get_height_map(pcd, HEIGHT_MAP_DIM=100)
             self.height_map.append(torch.from_numpy(heigh_pcd).to(self.device))
             self.max_steps[idx] = step_number
             self.contact_pairs.append(contact_pairs)
 
-
-            
 
         self.height_map = torch.stack(self.height_map,0).to(self.device)
         self.scene_stand_point =  self.scene_stand_point.to(self.device)
@@ -451,56 +354,53 @@ class UniHSI_PartNet_Test(humanoid_amp_task.HumanoidAMPTask):
         self.obj_pcd_buffer = self.obj_pcd_buffer.to(self.device)
         self.max_steps = self.max_steps.to(self.device)
 
-    def _get_part_labels(self, partnet_id):
+    # get part label mapping
+    def _get_part_labels(self, scene_id, obj_id, part_ids):
+        with open('data/scannet/scene'+scene_id+'_vh_clean_2.0.010000.segs.json', 'r') as fcc_file:
+            result_file = fcc_file.read()
+        result = json.loads(result_file)
+        labels = np.array(result['segIndices'])
 
-        if not isinstance(partnet_id, list):
-            partnet_id = [partnet_id]
+        with open('data/scannet/scene'+scene_id+'_vh_clean.aggregation.json', 'r') as fcc_file:
+            result_file = fcc_file.read()
+        result = json.loads(result_file)
+        aggre = result['segGroups']
 
-        result_dict_full = dict()
-        offset = 0
-        labels = []
-        for pid in partnet_id:
-            label_file = "data/partnet/"+pid+"/point_sample/sample-points-all-label-10000.txt"
-            label = load_label(label_file) + offset
-            result_file = "data/partnet/"+pid+"/result.json"
-            with open(result_file, 'r') as fcc_file:
-                result_file = fcc_file.read()
-            result = json.loads(result_file)
-            result_dict = dict()
-            get_leaf_node(result_dict, result, offset)
-            result_dict_full.update(result_dict)
-            offset += 100 # hard code
-            labels.append(label)
-        labels = np.concatenate(labels, axis=0)
+        label_mapping = dict()
+
+        for pi in part_ids:
+            segs = part_ids[pi]
+            segs_mapping = []
+            for seg in segs:
+                segs_mapping.append(aggre[eval(obj_id)]['segments'][seg])
+            label_mapping[pi] = segs_mapping
         
-        return labels, result_dict_full
+        return labels, label_mapping
 
-    def _get_obj_parts(self, object, contact_parts, label_mapping, label, pcd, stand_point):
+    # get part pointclouds
+    def _get_obj_parts(self, contact_parts, label_mapping, label, pcd, stand_point):
 
         max_x, min_x, max_y, min_y = pcd[:, 0].max(), pcd[:, 0].min(), pcd[:, 1].max(), pcd[:, 1].min()   
 
         obj_pcd_buffer = []
         for p in contact_parts:
-            if 'floor' in p:
-                out_part_pcd = torch.rand(30000,3).cuda()
-                out_part_pcd[:,0] = out_part_pcd[:,0] * ((max_x+0.5)-(min_x-0.5)) + min_x-0.5
-                out_part_pcd[:,1] = out_part_pcd[:,1] * ((max_y+0.5)-(min_y-0.5)) + min_y-0.5
-                out_part_pcd[:,2] = out_part_pcd[:,2] * 0.08
-                if object[:3] == "bed":
-                    mask = (out_part_pcd[:,1]>max_y+0.2)
-                elif  object[:3] == "chair":
-                    mask = (out_part_pcd[:,0]>max_x)
-                else:
-                    mask = ((out_part_pcd[:,0]>max_x) | (out_part_pcd[:,0]<min_x)) | ((out_part_pcd[:,1]>max_y) | (out_part_pcd[:,1]<min_y))
-                out_part_pcd = out_part_pcd[mask]
+
+            idx = label_mapping[p]
+            if isinstance(idx, list):
+                mask = np.zeros(pcd.shape[0]).astype(bool)
+                for ix in idx:
+                    mask[label==ix] = True
+                part_pcd = pcd[mask]
             else:
-                idx = label_mapping[p]
                 part_pcd = pcd[label==idx]
-                max_x, min_x, max_y, min_y, max_z, min_z = part_pcd[:,0].max(), part_pcd[:,0].min(), part_pcd[:,1].max(), part_pcd[:,1].min(), part_pcd[:,2].max(), part_pcd[:,2].min()
-            
-                out_part_pcd = part_pcd[(part_pcd[:,0] <= max((max_x-0.2), (max_x-min_x)/5*4+min_x)) & (part_pcd[:,0] >= min(min_x+0.2, (max_x-min_x)/5*1+min_x)) &
-                                    (part_pcd[:,1] <= max((max_y-0.2), (max_y-min_y)/5*4+min_y)) & (part_pcd[:,1] >= min(min_y+0.2, (max_y-min_y)/5*1+min_y))] # filter edge
-                out_part_pcd = torch.from_numpy(out_part_pcd).to(self.device)
+            max_x, min_x, max_y, min_y, max_z, min_z = part_pcd[:,0].max(), part_pcd[:,0].min(), part_pcd[:,1].max(), part_pcd[:,1].min(), part_pcd[:,2].max(), part_pcd[:,2].min()
+        
+            # filter edge points
+            out_part_pcd = part_pcd[(part_pcd[:,0] <= max((max_x-0.2), (max_x-min_x)/5*3+min_x)) & (part_pcd[:,0] >= min(min_x+0.2, (max_x-min_x)/5*2+min_x)) &
+                                (part_pcd[:,1] <= max((max_y-0.2), (max_y-min_y)/5*3+min_y)) & (part_pcd[:,1] >= min(min_y+0.2, (max_y-min_y)/5*2+min_y))] # filter edge
+            if len(out_part_pcd)==0:
+                out_part_pcd = part_pcd
+            out_part_pcd = torch.from_numpy(out_part_pcd).to(self.device)
             idx = farthest_point_sample(out_part_pcd[None], 200)
             out_part_pcd = out_part_pcd[idx]
             obj_pcd_buffer.append(out_part_pcd)
@@ -524,21 +424,10 @@ class UniHSI_PartNet_Test(humanoid_amp_task.HumanoidAMPTask):
         self.x_offset = (self.env_array % num_per_row % self.num_scenes_row) * spacing * 2 - (self.env_array % num_per_row) * spacing * 2
         self.y_offset = (self.env_array // num_per_row % self.num_scenes_col) * spacing * 2- (self.env_array // num_per_row) * spacing * 2
 
-        # [num_envs, num_obj, num_part_sequence, num_pts. 3]
         self.envs_obj_pcd_buffer = self.obj_pcd_buffer.new_zeros([self.num_envs, self.obj_pcd_buffer.shape[2], self.obj_pcd_buffer.shape[3], self.obj_pcd_buffer.shape[4]])
         
-        # self.envs_heightmap = self.height_map[self.scene_for_env].float()
-
-        self.obj_rotate_matrix = self.obj_rotate_matrix.permute(2,3,0,1).float()
-        self.scene_stand_point = torch.einsum("nmoe,neg->nmog", self.scene_stand_point[self.scene_for_env], self.obj_rotate_matrix[self.env_scene_idx_row, self.env_scene_idx_col])
-        self.scene_stand_point[..., 0] += self.x_offset[:,None,None] + self.rand_dist_x[self.env_scene_idx_row, self.env_scene_idx_col][:,None,None]
-        self.scene_stand_point[..., 1] += self.y_offset[:,None,None] + self.rand_dist_y[self.env_scene_idx_row, self.env_scene_idx_col][:,None,None]     
-        
         self.envs_heightmap = self.height_map[self.scene_for_env].float()
-        self.envs_heightmap[..., 0] += self.rand_dist_x[self.env_scene_idx_row, self.env_scene_idx_col][..., None]
-        self.envs_heightmap[..., 1] += self.rand_dist_y[self.env_scene_idx_row, self.env_scene_idx_col][..., None]
-        self.envs_heightmap[..., 2] += self.rand_dist_z[self.env_scene_idx_row, self.env_scene_idx_col][..., None]
-        self.envs_heightmap = torch.einsum("nae,neg->nag", self.envs_heightmap, self.obj_rotate_matrix[self.env_scene_idx_row, self.env_scene_idx_col])
+
         super()._create_envs(num_envs, spacing, num_per_row)
         return
 
@@ -555,6 +444,7 @@ class UniHSI_PartNet_Test(humanoid_amp_task.HumanoidAMPTask):
         body_ids = to_torch(body_ids, device=self.device, dtype=torch.long)
         return body_ids
 
+    # reset actors and target
     def _reset_actors(self, env_ids):
         if len(env_ids) > 0:
             success = (self.location_diff_buf[env_ids] < 0.1) & ~self.big_force[env_ids]
@@ -566,12 +456,12 @@ class UniHSI_PartNet_Test(humanoid_amp_task.HumanoidAMPTask):
         contact_type_steps = self.contact_type_step[self.scene_for_env, self.step_mode]
         contact_valid_steps = self.contact_valid_step[self.scene_for_env, self.step_mode]
         fulfill = ((contact_valid_steps & \
-                     (((contact_type_steps) & (self.joint_diff_buff < 0.1)) | (((~contact_type_steps) & (self.joint_diff_buff >= 0.05))))) \
-                        | (~contact_valid_steps))[env_ids] & (success[:, None]) # need add contact direction
+                     (((contact_type_steps) & (self.joint_diff_buff < 0.2)) | (((~contact_type_steps) & (self.joint_diff_buff >= 0.1))))) \
+                        | (~contact_valid_steps))[env_ids] & (success[:, None])
         fulfill = torch.all(fulfill, dim=-1)
 
-        self.step_mode[env_ids[fulfill]] += 1
 
+        self.step_mode[env_ids[fulfill]] += 1
         max_step = self.step_mode[env_ids] == self.max_steps[self.scene_for_env][env_ids]
 
         dis = torch.sqrt(self.joint_diff_buff)
@@ -603,30 +493,26 @@ class UniHSI_PartNet_Test(humanoid_amp_task.HumanoidAMPTask):
         rand_rot = quat_from_angle_axis(rand_rot_theta, axis)
         self._humanoid_root_states[env_ids[reset], 3:7] = rand_rot[env_ids[reset]]
 
-        dist_max = 4
-        dist_min = 2
-        rand_dist_y = (dist_max - dist_min) * torch.rand([self.num_envs], device=self.device) + dist_min
-        rand_dist_x = (dist_max - dist_min) * torch.rand([self.num_envs], device=self.device) + dist_min
-        x_sign = torch.from_numpy(np.random.choice((-1, 1), [self.num_envs])).to(self.device)
-        y_sign = torch.from_numpy(np.random.choice((-1, 1), [self.num_envs])).to(self.device)
-        self._humanoid_root_states[env_ids[reset], 0] += self.x_offset[env_ids[reset]] + x_sign[env_ids[reset]] * rand_dist_x[env_ids[reset]]
-        self._humanoid_root_states[env_ids[reset], 1] += self.y_offset[env_ids[reset]] + y_sign[env_ids[reset]] * rand_dist_y[env_ids[reset]] - 2
-        self.step_mode[env_ids[reset]] = 0
-
-        stand_point_choice = torch.from_numpy(np.random.choice((0,1,2,3), [self.num_envs])).to(self.device)
-        self.stand_point_choice[env_ids[reset]] = stand_point_choice[env_ids[reset]]
+        self._humanoid_root_states[env_ids[reset], 0] = self.x_offset[env_ids[reset]] + self.init_pos[self.scene_for_env][env_ids[reset]][:,0]
+        self._humanoid_root_states[env_ids[reset], 1] = self.y_offset[env_ids[reset]] + self.init_pos[self.scene_for_env][env_ids[reset]][:,1]
+        self.step_mode[env_ids[reset]] = 0 
 
         self.contact_type = self.contact_type_step[self.scene_for_env, self.step_mode]
         self.contact_valid = self.contact_valid_step[self.scene_for_env, self.step_mode]
-        self.contact_direction = self.contact_direction_step[self.scene_for_env, self.step_mode]
-
-        self.stand_point = self.scene_stand_point[range(len(self.step_mode)), self.step_mode, self.stand_point_choice]
+        self.contact_direction = self.contact_direction_step[self.scene_for_env, self.step_mode]        
+        
+        self.stand_point = self.scene_stand_point[self.scene_for_env, self.step_mode]
+        self.stand_point[..., 0] += self.x_offset
+        self.stand_point[..., 1] += self.y_offset
 
         self.envs_obj_pcd_buffer[env_ids] = self.obj_pcd_buffer[self.scene_for_env[env_ids], self.step_mode[env_ids]]
-        self.envs_obj_pcd_buffer[env_ids] = torch.einsum("nmoe,neg->nmog", self.envs_obj_pcd_buffer[env_ids], self.obj_rotate_matrix[self.env_scene_idx_row, self.env_scene_idx_col][env_ids])
-        self.envs_obj_pcd_buffer[env_ids, ..., 0] += self.x_offset[:, None, None][env_ids] + self.rand_dist_x[self.env_scene_idx_row, self.env_scene_idx_col][..., None, None][env_ids]
-        self.envs_obj_pcd_buffer[env_ids, ..., 1] += self.y_offset[:, None, None][env_ids] + self.rand_dist_y[self.env_scene_idx_row, self.env_scene_idx_col][..., None, None][env_ids]
-        self.envs_obj_pcd_buffer[env_ids, ..., 2] += self.rand_dist_z[self.env_scene_idx_row, self.env_scene_idx_col][..., None, None][env_ids]
+        self.envs_obj_pcd_buffer[env_ids, ..., 0] += self.x_offset[:, None, None][env_ids]
+        self.envs_obj_pcd_buffer[env_ids, ..., 1] += self.y_offset[:, None, None][env_ids]
+
+        # print(self.contact_pairs[env_ids][self.step_mode[env_ids]])
+        # print(self.contact_type)
+        # print(self.contact_valid)
+        # print(self.step_mode)
 
     def pre_physics_step(self, actions):
         super().pre_physics_step(actions)
@@ -646,6 +532,7 @@ class UniHSI_PartNet_Test(humanoid_amp_task.HumanoidAMPTask):
         torso += self._rigid_body_pos[:, 0]
         self.new_rigid_body_pos[:, 1] = torso
         joint_pos_buffer = []
+
         if (env_ids is None):
             root_states = self._humanoid_root_states
             tar_pos = self.stand_point
@@ -699,6 +586,7 @@ class UniHSI_PartNet_Test(humanoid_amp_task.HumanoidAMPTask):
             origin_root_pos[:, 1] = origin_root_pos[:, 1] - self.y_offset[env_ids]
             tar_dir = self.tar_dir[env_ids]
 
+        # compute unified observation
         tar_rot = root_states.new_zeros([root_states.shape[0],4])
         tar_rot[:, 3] = 1
         tar_vel = root_states.new_zeros([root_states.shape[0],3])
@@ -706,6 +594,7 @@ class UniHSI_PartNet_Test(humanoid_amp_task.HumanoidAMPTask):
         obs, self.local_height_map, self.rotated_mesh_pos = compute_strike_observations(root_states, tar_pos, joint_pos_buffer, pcd_buffer, tar_rot, tar_vel, tar_ang_vel, contact_type, contact_valid, contact_direction,
                                                                                  self.humanoid_in_mesh, origin_root_pos, self.local_scale, height_map, self.mesh_pos, tar_dir)
         
+        # compute unified reward
         char_root_state = self._humanoid_root_states
         target = self.stand_point
 
@@ -726,13 +615,14 @@ class UniHSI_PartNet_Test(humanoid_amp_task.HumanoidAMPTask):
         
         return obs
 
+
     def _compute_reset(self):
         # calcute reset conditions
         success = (self.location_diff_buf < 0.1) & ~self.big_force
         contact_type_steps = self.contact_type_step[self.scene_for_env, self.step_mode]
         contact_valid_steps = self.contact_valid_step[self.scene_for_env, self.step_mode]
         fulfill = ((contact_valid_steps & \
-                     (((contact_type_steps) & (self.joint_diff_buff < 0.3)) | (((~contact_type_steps) & (self.joint_diff_buff >= 0.1))))) \
+                     (((contact_type_steps) & (self.joint_diff_buff < 0.2)) | (((~contact_type_steps) & (self.joint_diff_buff >= 0.1))))) \
                         | (~contact_valid_steps))& (success[:, None])
         fulfill = torch.all(fulfill, dim=-1)
         self.still = self.still_buf>10 & fulfill
@@ -771,12 +661,30 @@ class UniHSI_PartNet_Test(humanoid_amp_task.HumanoidAMPTask):
         # ends = self.pcd_buffer[0].mean(1)
         ends = self.stand_point
         verts = torch.cat([starts, ends], dim=-1).cpu().numpy()
-
         for i, env_ptr in enumerate(self.envs):
             curr_verts = verts[i]
             curr_verts = curr_verts.reshape([1, 6])
             self.gym.add_lines(self.viewer, env_ptr, curr_verts.shape[0], curr_verts, cols)
 
+        point = np.array([[0,0,1],[0,1,1],[2,0,1]], dtype=np.float32)
+        cols_ = np.array([[0.0, 1.0, 0.0]], dtype=np.float32)
+        cols = np.repeat(cols_, 2, axis=0)
+
+        for i in range(len(point)):
+            start = point[i]
+            start_1 = start.copy()
+            end_1 = start.copy()
+            start_2 = start.copy()
+            end_2 = start.copy()
+            start_1[0] += 0.1
+            end_1[0] -= 0.1
+            start_2[1] += 0.1
+            end_2[1] -= 0.1
+
+            line_1 = np.concatenate([start_1, end_1])[None].astype(np.float32)
+            line_2 = np.concatenate([start_2, end_2])[None].astype(np.float32)
+            lines = np.concatenate([line_1, line_2], axis=0)
+            self.gym.add_lines(self.viewer, self.envs[0], 2, lines, cols)
         return
 
 #####################################################################
@@ -801,6 +709,7 @@ def compute_strike_observations(root_states, tar_pos, joint_pos_buffer, pcd_buff
     local_tar_rot = quat_mul(heading_rot, tar_rot)
     local_tar_rot_obs = torch_utils.quat_to_tan_norm(local_tar_rot)
 
+    # calculate ego-centric heightmap
     mesh_pos = mesh_pos[None] + (root_pos -human_in_mesh)[:, None]
     mesh_dist = (mesh_pos - root_pos[:, None]).reshape(-1, 3)
     heading_rot_for_height = root_rot[:, None].repeat(1, local_scale*local_scale, 1).reshape(-1, 4)
@@ -821,10 +730,20 @@ def compute_strike_observations(root_states, tar_pos, joint_pos_buffer, pcd_buff
     height_map[~valid_mask] = 0.0
     height_map = height_map.reshape(shape[0], shape[2]).float()
 
+    # uncomment when infer
+    local_tar_pos_norm = torch.sqrt(local_tar_pos[:, 0]*local_tar_pos[:, 0] + local_tar_pos[:, 1]*local_tar_pos[:, 1])
+    local_tar_pos[local_tar_pos_norm>1, :2] /= local_tar_pos_norm[local_tar_pos_norm>1][:, None]
+
+    # navigation_mask = (contact_valid.sum(-1) == 0)
+    # local_tar_pos[~navigation_mask] *= 0
+    # local_tar_rot_obs[~navigation_mask] *= 0
+    # local_tar_vel[~navigation_mask] *= 0
+    # tar_dir[~navigation_mask] *= 0
 
     contact_direction = contact_direction.reshape(-1, 45)
     obs = torch.cat([local_tar_pos, local_tar_rot_obs, local_tar_vel, tar_dir, contact_type, contact_valid, height_map], dim=-1)
 
+    # contact all distances of pairs
     local_target_pos = pcd_buffer - joint_pos_buffer
     local_target_pos_r = quat_rotate(heading_rot[:, None].repeat(1, local_target_pos.shape[1], 1).view(-1, 4), local_target_pos.view(-1, 3))
     local_target_pos_r = local_target_pos_r.reshape(local_target_pos.shape)
@@ -838,7 +757,7 @@ def compute_contact_reward(target, root_state, pcd_buffer, joint_pos_buffer,
     # type: (Tensor, Tensor, Tensor, Tensor, Tensor, float, float) -> Tensor
     dist_threshold = 0.2
 
-    pos_err_scale = 0.5
+    pos_err_scale = 5
     vel_err_scale = 2.0
     near_pos_err_scale = 10
 
@@ -876,8 +795,8 @@ def compute_contact_reward(target, root_state, pcd_buffer, joint_pos_buffer,
     near_pos_err_min_buf = torch.stack(near_pos_err_min_buf, 1)
     near_pos_reward_buf = torch.stack(near_pos_reward_buf, 0)
     min_pos_idx_buf = torch.stack(min_pos_idx_buf, 1)
-    near_pos_reward_w = (1 - near_pos_reward_buf) / (pcd_buffer.shape[1] - near_pos_reward_buf.sum(0) + 1e-4)
-
+    near_pos_reward_w = (1 - near_pos_reward_buf) / (pcd_buffer.shape[1] - near_pos_reward_buf.sum(0) + 1e-4) # adaptive weights
+ 
     near_pos_reward = (near_pos_reward_w * near_pos_reward_buf).sum(0)
 
     facing_target = (contact_valid.sum(-1) == 1) & (contact_valid[:, -1] | contact_valid[:, -4])
@@ -930,11 +849,9 @@ def compute_contact_reward(target, root_state, pcd_buffer, joint_pos_buffer,
 
     not_walking = contact_valid.sum(-1)>0
 
-    # dist_mask = pos_err < dist_threshold
     reward = far_reward
     reward[not_walking] = near_pos_reward[not_walking]
     pos_err[not_walking] = 0 # once success, keep success
-    # reward[dist_mask] = reward_near[dist_mask]
 
     return reward, pos_err, near_pos_err_min_buf, min_pos_idx_buf, tar_dir
     
@@ -959,19 +876,12 @@ def compute_humanoid_reset(reset_buf, progress_buf, contact_buf, contact_body_id
 
         has_fallen = torch.logical_and(fall_contact, fall_height)
 
-        # tar_has_contact = torch.any(torch.abs(tar_contact_forces[..., 0:2]) > contact_force_threshold, dim=-1)
-        #strike_body_force = contact_buf[:, strike_body_id, :]
-        #strike_body_has_contact = torch.any(torch.abs(strike_body_force) > contact_force_threshold, dim=-1)
         nonstrike_body_force = masked_contact_buf
         nonstrike_body_force[:, strike_body_ids, :] = 0
         nonstrike_body_has_contact = torch.any(torch.abs(nonstrike_body_force) > contact_force_threshold, dim=-1)
         nonstrike_body_has_contact = torch.any(nonstrike_body_has_contact, dim=-1)
 
-        # tar_fail = torch.logical_and(tar_has_contact, nonstrike_body_has_contact)
-        
-        # has_failed = torch.logical_or(has_fallen, tar_fail)
         has_failed = has_fallen
-
         # first timestep can sometimes still have nonzero contact forces
         # so only check after first couple of steps
         has_failed *= (progress_buf > 1)
@@ -979,13 +889,12 @@ def compute_humanoid_reset(reset_buf, progress_buf, contact_buf, contact_body_id
     
     still_buf[_rigid_body_vel.abs().sum(-1).max(-1)[0]<0.6] += 1
     still_buf[_rigid_body_vel.abs().sum(-1).max(-1)[0]>0.6] = 0
-    # print(_rigid_body_vel.abs().sum(-1).max(-1))
 
-    # print(still_buf)
 
     terminated = torch.where(big_force, torch.ones_like(reset_buf), terminated) # terminate when force is too big (could cause peneration)
 
     reset = torch.where(progress_buf >= max_episode_length - 1, torch.ones_like(reset_buf), terminated)
     reset = torch.where((still_buf>10) & fulfill, torch.ones_like(reset_buf), reset)
+
     
     return reset, terminated, still_buf
