@@ -171,9 +171,6 @@ class UniHSI_PartNet(humanoid_amp_task.HumanoidAMPTask):
         self.still = torch.zeros([self.num_envs], device=self.device, dtype=torch.bool)
         self.still_buf = torch.zeros([self.num_envs], device=self.device, dtype=torch.float)
 
-        self.success_count = 0
-        self.fail_count = 0
-        
         return
 
     def _create_ground_plane(self):
@@ -562,14 +559,6 @@ class UniHSI_PartNet(humanoid_amp_task.HumanoidAMPTask):
         self.step_mode[env_ids[fulfill]] += 1
 
         max_step = self.step_mode[env_ids] == self.max_steps[self.scene_for_env][env_ids]
-
-        self.success_count += sum(max_step)
-        self.fail_count += sum(~fulfill)
-        print("Success Rate:", (self.success_count)/(self.success_count+self.fail_count+1e-3))
-        print("success_count:", self.success_count)
-        print("fail_count:", self.fail_count)
-        print('total count:', self.success_count + self.fail_count)
-
 
         reset = ~fulfill | max_step
         super()._reset_actors(env_ids[reset])
