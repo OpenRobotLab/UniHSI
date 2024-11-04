@@ -1,6 +1,3 @@
-import wandb
-
-
 import torch
 
 from isaacgym import gymapi, gymtorch
@@ -10,6 +7,8 @@ import env.tasks.humanoid_amp as humanoid_amp
 import env.tasks.humanoid_amp_task as humanoid_amp_task
 from utils import torch_utils
 import open3d as o3d
+
+import logging
 
 
 import json
@@ -178,6 +177,11 @@ class UniHSI_PartNet_Test(humanoid_amp_task.HumanoidAMPTask):
         self.precision_count = 0
 
         self.success_step = 0
+
+        self.last_save = 0
+
+        logging.basicConfig(filename='/home/zqxiao/mount/unihsi2/output.log', level=logging.INFO)
+        self.logger = logging.getLogger(__name__)
         
         return
 
@@ -570,19 +574,27 @@ class UniHSI_PartNet_Test(humanoid_amp_task.HumanoidAMPTask):
 
         self.success_count += sum(max_step)
         self.fail_count += sum(~fulfill & ~big_force) # we don't count fail when big force is applied
-        print("Success Rate:", (self.success_count)/(self.success_count+self.fail_count+1e-3))
-        print("success_count:", self.success_count)
-        print("fail_count:", self.fail_count)
-        print('total count:', self.success_count + self.fail_count)
+        # print("Success Rate:", (self.success_count)/(self.success_count+self.fail_count+1e-3))
+        # print("success_count:", self.success_count)
+        # print("fail_count:", self.fail_count)
+        # print('total count:', self.success_count + self.fail_count)
 
         dis = torch.sqrt(self.joint_diff_buff)
         precision = (torch.sum(dis*contact_valid_steps*contact_type_steps,1) + torch.sum(contact_valid_steps*~contact_type_steps*torch.clip(0.3-dis, 0),1))/(contact_valid_steps.sum(1)+1e-8)
         self.precision_sum += precision[env_ids][fulfill].sum()
         self.precision_count += fulfill.sum()
-        print("precision:", self.precision_sum/(self.precision_count+1e-8))
+        # print("precision:", self.precision_sum/(self.precision_count+1e-8))
 
         self.success_step += self.max_steps[self.scene_for_env][env_ids[max_step]].sum()
-        print("success steps:", self.success_step/(self.success_count+1e-8))
+        # print("success steps:", self.success_step/(self.success_count+1e-8))
+
+        if (self.success_count+self.fail_count) % 100 == 0 and (self.success_count+self.fail_count) != self.last_save:
+            self.logger.info("Success Rate:"+str((self.success_count/(self.success_count+self.fail_count+1e-3).item())))
+            self.logger.info("Precision:"+str((self.precision_sum/(self.precision_count+1e-8))))
+            self.logger.info("Success Steps:"+str((self.success_step/(self.success_count+1e-8)).item()))
+            self.logger.info("Total Trail:"+str((self.success_count + self.fail_count).item()))
+
+        self.last_save = self.success_count+self.fail_count
 
         reset = ~fulfill | max_step
         super()._reset_actors(env_ids[reset])
