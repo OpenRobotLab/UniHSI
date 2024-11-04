@@ -184,6 +184,7 @@ sh test_scannet_hard.sh
 	</tr>
 </table>
 
+The results will be saved in the "output" folder.
 * There will be ~10% variance due to randomness in sampling.
 
 ## 🔗 Citation
