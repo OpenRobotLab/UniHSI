@@ -1,4 +1,4 @@
-python3 unihsi/run.py \
+python unihsi/run.py \
     --task UniHSI_ScanNet\
     --test \
     --num_envs 1 \
