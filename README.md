@@ -135,6 +135,9 @@ sh demo_scannet.sh
 sh test_partnet_simple.sh
 sh test_partnet_mid.sh
 sh test_partnet_hard.sh
+sh test_scannet_simple.sh
+sh test_scannet_mid.sh
+sh test_scannet_hard.sh
 ```
 
 <table>
