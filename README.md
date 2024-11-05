@@ -145,42 +145,42 @@ sh test_scannet_hard.sh
 	    <td rowspan="2">Source</td>
 	    <td colspan="3">Success Rate (%) </td>
 	    <td colspan="3">Contact Error</td>  
-      <td colspan="3">Success Steps</td>
+            <td colspan="3">Success Steps</td>
 	</tr >
 	<tr >
 	    <td>Simple</td>
 	    <td>Mid</td>
-      <td>Hard</td>
+            <td>Hard</td>
 	    <td>Simple</td>
 	    <td>Mid</td>
-      <td>Hard</td>
+      	    <td>Hard</td>
 	    <td>Simple</td>
 	    <td>Mid</td>
-      <td>Hard</td>
+            <td>Hard</td>
 	</tr>
 	<tr >
 	    <td>PartNet</td>
 	    <td>85.5</td>
 	    <td>67.9</td>
-      <td>40.5</td>
+            <td>40.5</td>
 	    <td>0.035</td>
 	    <td>0.037</td>
-      <td>0.040</td>
+            <td>0.040</td>
 	    <td>2.13</td>
 	    <td>4.11</td>
-      <td>4.84</td>
+            <td>4.84</td>
 	</tr>
 	<tr >
 	    <td>ScanNet</td>
 	    <td>73.2</td>
 	    <td>43.1</td>
-      <td>25.1</td>
+      	    <td>22.3</td>
 	    <td>0.061</td>
 	    <td>0.072</td>
-      <td>0.062</td>
+            <td>0.062</td>
 	    <td>2.21</td>
 	    <td>3.47</td>
-      <td>4.78</td>
+            <td>4.78</td>
 	</tr>
 </table>
 
