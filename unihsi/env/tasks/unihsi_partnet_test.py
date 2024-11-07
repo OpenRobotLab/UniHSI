@@ -587,7 +587,7 @@ class UniHSI_PartNet_Test(humanoid_amp_task.HumanoidAMPTask):
 
         if (self.success_count+self.fail_count) % 100 == 0 and ((self.success_count+self.fail_count)/100) > self.last_save:
             self.logger.info("Success Rate:"+str((self.success_count/(self.success_count+self.fail_count+1e-3)).item()))
-            self.logger.info("Precision:"+str((self.precision_sum/(self.precision_count+1e-8)).item()))
+            self.logger.info("Contact Error:"+str((self.precision_sum/(self.precision_count+1e-8)).item()))
             self.logger.info("Success Steps:"+str((self.success_step/(self.success_count+1e-8)).item()))
             self.logger.info("Total Trail:"+str((self.success_count + self.fail_count).item()))
 
