@@ -58,7 +58,7 @@ follow the installation instructions.
 Once Isaac Gym is installed, install the external dependencies for this repo:
 
 ```
-pip install -r requirements.txt
+pip install -r requirement.txt
 ```
 
 ## Data Preparation
