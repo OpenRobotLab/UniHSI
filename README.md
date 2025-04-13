@@ -19,7 +19,7 @@
 
 <p align="center">
   <a href="https://arxiv.org/abs/2309.07918" target='_blank'>
-    <img src="https://img.shields.io/badge/arXiv-2308.16911-blue?">
+    <img src="https://img.shields.io/badge/arXiv-2309.07918-blue?">
   </a> 
   <a href="./assets/UniHSI.pdf" target='_blank'>
     <img src="https://img.shields.io/badge/Paper-📖-blue?">
